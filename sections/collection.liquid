@@ -5,7 +5,59 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
-<h1>{{ collection.title }}</h1>
+<div class="grid grid-cols-3 gap-12 pt-12">
+  <div class="relative">
+    <a href="/products/la" class="sticky top-12">
+      <h2 class="tracking-tighter font-bold text-[40px]  uppercase">LOS ANGELES</h2>
+      <h3 class="tracking-tighter pl-7 text-[40px] leading-1">Californa</h3>
+    </a>
+  </div>
+  <div class="col-span-2 grid gap-12 grid-cols-2">
+    <a href="/products/la" class="flex flex-col gap-4">
+      <img src="https://cdn.shopify.com/s/files/1/0813/2401/5851/files/scan0012.jpg?v=1772659350"/>
+    </a>
+    <a href="/products/la" class="flex flex-col gap-4">
+      <img src="https://cdn.shopify.com/s/files/1/0813/2401/5851/files/scan0010.jpg?v=1772659350"/>
+    </a>
+    <a href="/products/la" class="flex flex-col gap-4">
+      <img src="https://cdn.shopify.com/s/files/1/0813/2401/5851/files/scan0011.jpg?v=1772659349"/>
+    </a>
+    <a href="/products/la" class="flex flex-col gap-4">
+      <img src="https://cdn.shopify.com/s/files/1/0813/2401/5851/files/scan0013.jpg?v=1772659283"/>
+    </a>
+  </div>
+  <div class="relative">
+    <a href="/products/nyc" class="sticky top-12">
+      <h2 class="tracking-tighter font-bold text-[40px]  uppercase">NYC</h2>
+      <h3 class="tracking-tighter pl-7 text-[40px] leading-1">New York</h3>
+    </a>
+  </div>
+  <div class="col-span-2 grid gap-12 grid-cols-2">
+    <a href="/products/nyc" class="flex flex-col gap-4 col-span-2">
+      <img src="https://cdn.shopify.com/s/files/1/0813/2401/5851/files/scan0006.jpg?v=1772659690"/>
+    </a>
+    <a href="/products/nyc" class="flex flex-col gap-4">
+      <img src="https://cdn.shopify.com/s/files/1/0813/2401/5851/files/scan0014.jpg?v=1772659255"/>
+    </a>
+    <a href="/products/nyc" class="flex flex-col gap-4">
+      <img src="https://cdn.shopify.com/s/files/1/0813/2401/5851/files/scan0002.jpg?v=1772659736"/>
+    </a>
+  </div>
+  <div class="relative">
+    <a href="/products/virtual" class="sticky top-12">
+      <h2 class="tracking-tighter font-bold text-[40px]  uppercase">Virtual</h2>
+      <h3 class="tracking-tighter pl-7 text-[40px] leading-1">Anywhere</h3>
+    </a>
+  </div>
+  <div class="col-span-2 grid gap-12 grid-cols-2">
+    <a href="/products/virtual" class="flex flex-col gap-4 col-span-2">
+      <img src="https://cdn.shopify.com/s/files/1/0813/2401/5851/files/scan0003.jpg?v=1772660153"/>
+    </a>
+    <a href="/products/la" class="flex flex-col gap-4 col-span-2">
+      <img src="https://cdn.shopify.com/s/files/1/0813/2401/5851/files/scan0118.jpg?v=1772659775"/>
+    </a>
+  </div>
+</div>
 
 <div class="collection-products">
   {% paginate collection.products by 20 %}
