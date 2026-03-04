@@ -1,13 +1,17 @@
 <header>
   <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
+    <a href="{{routes.root_url}}">
+      <img src="https://cdn.shopify.com/s/files/1/0813/2401/5851/files/logo.png?v=1772656190" class="w-12" />
+    </a>
   </h2>
 
+  {% comment %}
   <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
+    {% for link in linklists.main-menu.links -%}
+      {{ link.title | link_to: link.url  }}
+    {%- endfor %}
   </div>
+  {% endcomment %}
 
   <div class="header__icons">
     {% if shop.customer_accounts_enabled %}
