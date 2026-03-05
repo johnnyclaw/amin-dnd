@@ -22,7 +22,8 @@
       {% if block.type == 'project_card' %}
         <a
           href="{{ block.settings.link | default: '#' }}"
-          class="group block {% if forloop.index == 1 %}md:mt-0{% elsif forloop.index0 | modulo: 3 == 1 %}md:mt-16{% endif %}"
+          {% assign mod_check = forloop.index0 | modulo: 2 %}
+          class="group block {% if mod_check == 1 %}md:mt-16{% endif %}"
           {{ block.shopify_attributes }}
         >
           <!-- Image -->
