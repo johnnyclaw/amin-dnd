@@ -5,41 +5,62 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/product
 {% endcomment %}
 
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
+<div class="grid grid-cols-2 gap-12">
+  <div class="relative max-w-[80%]">
+    <div class="sticky top-8">
+      <div class="flex justify-between">
+        <h1>{{ product.title }}</h1>
+      </div>
+
+      <div class="pt-12">
+        {% form 'product', product %}
+          {% assign current_variant = product.selected_or_first_available_variant %}
+
+          <select name="id">
+            {% for variant in product.variants %}
+              <option
+                value="{{ variant.id }}"
+                {% if variant == current_variant %}
+                  selected="selected"
+                {% endif %}
+              >
+              {{ variant.title }} - {{ variant.price | money }}               
+              {% if variant.compare_at_price > variant.price %}
+                {% assign price_difference = variant.compare_at_price | minus: variant.price %}
+                <span>(Save {{ price_difference | money }})</span>
+              {% endif %}
+              </option>
+            {% endfor %}
+
+          </select>
+          {% for variant in product.variants %}
+            {% if variant.compare_at_price < variant.price %}
+              <div>
+                <span>from {{variant.compare_at_price| money }}</span>
+              </div>
+              <br/>
+            {% endif %}
+          {%endfor %}
+
+          <input class="hidden" type="text" name="quantity" min="1" value="1">
+
+          <input type="submit" value="Add to cart">
+          {{ form | payment_button }}
+        {% endform %}
+      </div>
+
+      <p>{{ product.description }}</p>
+
+    </div>
+  </div>
+
+  <div class="product-images flex flex-col gap-12">
+    {% for image in product.images %}
+      {% render 'image', class: 'product-image', image: image %}
+    {% endfor %}
+  </div>
 </div>
 
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
-
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
-
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
-        >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
-      {% endfor %}
-    </select>
-
-    <input type="text" name="quantity" min="1" value="1">
-
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
-</div>
 
 {% schema %}
 {
