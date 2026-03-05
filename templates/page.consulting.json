@@ -1,0 +1,64 @@
+{
+  "sections": {
+    "main": {
+      "type": "consulting",
+      "settings": {},
+      "blocks": {
+        "img_1": {
+          "type": "large_image",
+          "settings": {
+            "caption": "Amin Design & Direction — Studio"
+          }
+        },
+        "text_1": {
+          "type": "text_block",
+          "settings": {
+            "heading": "Manufacturing",
+            "body": "<p>End-to-end guidance on taking your design from concept to production. Pattern grading, material sourcing, factory communication, and quality control — built from years of hands-on experience.</p>"
+          }
+        },
+        "pair_1": {
+          "type": "image_pair",
+          "settings": {
+            "offset": true
+          }
+        },
+        "text_2": {
+          "type": "text_block",
+          "settings": {
+            "heading": "Sampling",
+            "body": "<p>Get your first sample right. We cover pattern development, fabric selection, construction techniques, and fit evaluation — so you're not wasting money on rounds of revisions.</p>",
+            "align": "right"
+          }
+        },
+        "spacer_1": {
+          "type": "spacer"
+        },
+        "img_2": {
+          "type": "large_image",
+          "settings": {
+            "offset": true,
+            "caption": "Production floor detail"
+          }
+        },
+        "text_3": {
+          "type": "text_block",
+          "settings": {
+            "heading": "Production",
+            "body": "<p>Scaling from sample to production run. We consult on production planning, cost optimization, vendor management, and quality assurance to help you ship with confidence.</p>",
+            "align": "center"
+          }
+        },
+        "cta_1": {
+          "type": "cta",
+          "settings": {
+            "text": "Book a 15-Min Consultation",
+            "align": "center"
+          }
+        }
+      },
+      "block_order": ["img_1", "text_1", "pair_1", "text_2", "spacer_1", "img_2", "text_3", "cta_1"]
+    }
+  },
+  "order": ["main"]
+}

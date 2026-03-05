@@ -1,0 +1,54 @@
+{
+  "sections": {
+    "main": {
+      "type": "direction",
+      "settings": {},
+      "blocks": {
+        "card_1": {
+          "type": "project_card",
+          "settings": {
+            "category": "MASTERCLASS",
+            "title": "Carpenter Jean Masterclass"
+          }
+        },
+        "card_2": {
+          "type": "project_card",
+          "settings": {
+            "category": "MASTERCLASS",
+            "title": "Denim Jacket Masterclass"
+          }
+        },
+        "card_3": {
+          "type": "project_card",
+          "settings": {
+            "category": "1:1 LESSON",
+            "title": "2x Design Lessons — LA"
+          }
+        },
+        "card_4": {
+          "type": "project_card",
+          "settings": {
+            "category": "VIRTUAL",
+            "title": "2x Virtual Design Lessons"
+          }
+        },
+        "card_5": {
+          "type": "project_card",
+          "settings": {
+            "category": "1:1 LESSON",
+            "title": "14x Design Lessons — LA"
+          }
+        },
+        "card_6": {
+          "type": "project_card",
+          "settings": {
+            "category": "YOUTH",
+            "title": "2x Youth Design Lessons — LA"
+          }
+        }
+      },
+      "block_order": ["card_1", "card_2", "card_3", "card_4", "card_5", "card_6"]
+    }
+  },
+  "order": ["main"]
+}
