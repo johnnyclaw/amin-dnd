@@ -11,6 +11,9 @@
   "sections": {
     "main": {
       "type": "product",
+      "custom_css": [
+        ".shopify-payment-button__button--unbranded {background-color: black;}"
+      ],
       "settings": {}
     }
   },
