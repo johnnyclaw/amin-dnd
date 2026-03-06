@@ -6,17 +6,17 @@
 {% endcomment %}
 
 <div class="grid grid-cols-2 gap-12">
-  <div class="relative max-w-[80%]">
-    <div class="sticky top-8">
+  <div class="relative">
+    <div class="sticky top-8 flex flex-col gap-8">
       <div class="flex justify-between">
         <h1 class="font-bold">{{ product.title }}</h1>
       </div>
 
-      <div class="pt-12">
+      <div class="flex flex-col gap-4">
         {% form 'product', product %}
           {% assign current_variant = product.selected_or_first_available_variant %}
 
-          <select name="id">
+          <select name="id" class="p-4 w-full my-2 border border-1 border-black">
             {% for variant in product.variants %}
               <option
                 value="{{ variant.id }}"
@@ -33,30 +33,26 @@
             {% endfor %}
 
           </select>
-          {% for variant in product.variants %}
-            {% if variant.compare_at_price < variant.price %}
-              <div>
-                <span>from {{variant.compare_at_price| money }}</span>
-              </div>
-              <br/>
-            {% endif %}
-          {%endfor %}
-
           <input class="hidden" type="text" name="quantity" min="1" value="1">
 
-          <input type="submit" value="Add to cart">
+          <input type="submit" value="Add to cart" class="hidden py-4">
+          <div class="py-2" style="margin-top: 12px;">
           {{ form | payment_button }}
+          </div>
         {% endform %}
       </div>
 
-      <p>{{ product.description }}</p>
+      <details>
+        <summary>Details</summary>
+        <p>{{ product.description }}</p>
+      </details>
 
     </div>
   </div>
 
-  <div class="product-images flex flex-col gap-12">
+  <div class="product-images grid grid-cols-1 gap-8">
     {% for image in product.images %}
-      {% render 'image', class: 'product-image', image: image %}
+      {% render 'image', class: 'product-image rounded-xl opacity-70', image: image %}
     {% endfor %}
   </div>
 </div>
