@@ -1,0 +1,146 @@
+{% comment %}
+  Floating contact form widget - appears as a circular button fixed to bottom-right,
+  animates to show a contact form panel on click.
+{% endcomment %}
+
+<div id="contact-widget" class="fixed bottom-6 right-6 z-50">
+  <!-- Trigger Button -->
+  <button id="contact-trigger" class="contact-trigger w-14 h-14 bg-black hover:bg-neutral-800 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300">
+    <!-- Mail Icon (SVG) -->
+    <svg id="mail-icon" class="w-6 h-6 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    <!-- Close Icon (X) -->
+    <svg id="close-icon" class="w-6 h-6 transition-opacity duration-300 opacity-0 absolute" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  </button>
+
+  <!-- Contact Form Panel -->
+  <div id="contact-panel" class="contact-panel absolute bottom-16 right-0 w-80 bg-white rounded-lg shadow-xl border border-neutral-200 p-6 transform scale-0 origin-bottom-right transition-transform duration-300">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-sm uppercase tracking-widest font-bold">Contact Us</h3>
+      <button id="panel-close" class="text-neutral-400 hover:text-neutral-600 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    {% form 'contact', class: 'contact-form' %}
+      {% if form.posted_successfully? %}
+        <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded text-green-800 text-sm">
+          Thank you for your message! We'll get back to you soon.
+        </div>
+      {% endif %}
+
+      {% if form.errors %}
+        <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded text-red-800 text-sm">
+          <ul class="list-none">
+            {% for field in form.errors %}
+              <li>{{ field | capitalize }} {{ form.errors.messages[field] }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      <div class="space-y-4">
+        <div>
+          <label for="contact-name" class="block text-sm font-medium text-neutral-700 mb-1">Name</label>
+          <input type="text" name="contact[name]" id="contact-name" value="{{ form.name }}" required class="border border-neutral-300 p-3 w-full text-sm rounded focus:outline-none focus:border-neutral-500">
+        </div>
+
+        <div>
+          <label for="contact-email" class="block text-sm font-medium text-neutral-700 mb-1">Email</label>
+          <input type="email" name="contact[email]" id="contact-email" value="{{ form.email }}" required class="border border-neutral-300 p-3 w-full text-sm rounded focus:outline-none focus:border-neutral-500">
+        </div>
+
+        <div>
+          <label for="contact-message" class="block text-sm font-medium text-neutral-700 mb-1">Message</label>
+          <textarea name="contact[body]" id="contact-message" required rows="4" class="border border-neutral-300 p-3 w-full text-sm rounded focus:outline-none focus:border-neutral-500 resize-none">{{ form.body }}</textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-black text-white py-3 text-sm uppercase tracking-widest font-bold hover:bg-neutral-800 transition-colors rounded">
+          Send Message
+        </button>
+      </div>
+    {% endform %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .contact-panel.panel-open {
+    transform: scale(1);
+  }
+  
+  .contact-trigger.widget-open #mail-icon {
+    opacity: 0;
+  }
+  
+  .contact-trigger.widget-open #close-icon {
+    opacity: 1;
+  }
+  
+  @media (max-width: 480px) {
+    #contact-panel {
+      width: calc(100vw - 3rem);
+      right: 1.5rem;
+    }
+  }
+{% endstylesheet %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const contactTrigger = document.getElementById('contact-trigger');
+    const contactPanel = document.getElementById('contact-panel');
+    const panelClose = document.getElementById('panel-close');
+    
+    function openPanel() {
+      contactTrigger.classList.add('widget-open');
+      contactPanel.classList.add('panel-open');
+    }
+    
+    function closePanel() {
+      contactTrigger.classList.remove('widget-open');
+      contactPanel.classList.remove('panel-open');
+    }
+    
+    // Toggle panel on trigger click
+    contactTrigger.addEventListener('click', function() {
+      if (contactPanel.classList.contains('panel-open')) {
+        closePanel();
+      } else {
+        openPanel();
+      }
+    });
+    
+    // Close panel on close button click
+    panelClose.addEventListener('click', function() {
+      closePanel();
+    });
+    
+    // Close panel on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && contactPanel.classList.contains('panel-open')) {
+        closePanel();
+      }
+    });
+    
+    // Close panel when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('contact-widget').contains(e.target)) {
+        closePanel();
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Contact Widget",
+  "settings": [],
+  "disabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}

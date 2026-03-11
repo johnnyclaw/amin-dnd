@@ -17,9 +17,14 @@
         "menu": "",
         "show_payment_icons": true
       }
+    },
+    "contact-widget": {
+      "type": "contact-widget",
+      "settings": {}
     }
   },
   "order": [
-    "footer"
+    "footer",
+    "contact-widget"
   ]
 }

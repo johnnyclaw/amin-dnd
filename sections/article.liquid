@@ -1,68 +1,177 @@
 {% comment %}
-  This section is used in the article template to render the article page, which
-  displays the full content of the blog post and can optionally include a
-  comments section for customers (not shown in this example).
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/article
+  Individual Project Page - displays project details with sticky left column
+  for title and right column for content, followed by 24-column image grid.
 {% endcomment %}
 
-{% if article.image %}
-  {{ article.image | image_url: width: 1000 | image_tag }}
-{% endif %}
+<div class="px-6 md:px-10 pt-12">
+  <!-- Project Header: Sticky Title + Content -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mb-12">
+    <!-- Sticky Left Column: Project Title -->
+    <div class="relative">
+      <div class="sticky top-12">
+        <h1 class="tracking-tighter font-bold text-[40px] md:text-[60px] uppercase leading-none">{{ article.title }}</h1>
+        {% if section.settings.show_date %}
+          {% assign date = article.published_at | time_tag: format: 'date' %}
+          <p class="text-sm uppercase tracking-widest font-bold mt-4 opacity-60">{{ date }}</p>
+        {% endif %}
+      </div>
+    </div>
 
-<h1>{{ article.title }}</h1>
-
-{% assign date = article.published_at | time_tag: format: 'date' %}
-<p>{{ 'blog.article_metadata_html' | t: date: date, author: article.author }}</p>
-
-{{ article.content }}
-
-{% if blog.comments_enabled? %}
-  <h2>{{ 'blog.article_comments' | t }}</h2>
-
-  <div id="comments">
-    {% paginate article.comments by 10 %}
-      {% for comment in article.comments %}
-        <div>
-          <p>{{ comment.author }}</p>
-          <p>
-            {{- comment.created_at | time_tag: format: 'date' -}}
-          </p>
-          <p>{{ comment.content }}</p>
-        </div>
-      {% endfor %}
-
-      {{ paginate | default_pagination: anchor: 'comments' }}
-    {% endpaginate %}
+    <!-- Right Column: Article Content -->
+    <div class="col-span-1 md:col-span-2">
+      <div class="prose prose-neutral max-w-none">
+        {{ article.content }}
+      </div>
+    </div>
   </div>
 
-  {% form 'new_comment', article %}
-    <h2>{{ 'blog.comment_form_title' | t }}</h2>
-
-    {{ form.errors | default_errors }}
-
-    <div>
-      <label for="author">{{ 'blog.comment_form_name' | t }}</label>
-      <input type="text" name="comment[author]" id="author" value="{{ form.author }}" required>
+  <!-- 24-Column Image Grid -->
+  {% if section.blocks.size > 0 %}
+    <div class="project-gallery grid gap-2 md:gap-4" style="grid-template-columns: repeat(24, 1fr);">
+      {% for block in section.blocks %}
+        {% if block.type == 'image' and block.settings.image != blank %}
+          {% assign mobile_columns = block.settings.columns | divided_by: 2 | at_least: 6 %}
+          <div 
+            style="grid-column: span {{ block.settings.columns }}; grid-row: span {{ block.settings.rows | default: 1 }};" 
+            class="project-image-block"
+            {{ block.shopify_attributes }}
+          >
+            {{ block.settings.image | image_url: width: 1200 | image_tag:
+              class: 'w-full h-full object-cover',
+              loading: 'lazy'
+            }}
+          </div>
+        {% endif %}
+      {% endfor %}
     </div>
+  {% endif %}
+</div>
 
-    <div>
-      <label for="email">{{ 'blog.comment_form_email' | t }}</label>
-      <input type="email" name="comment[email]" id="email" value="{{ form.email }}" required>
-    </div>
-
-    <div>
-      <label for="body">{{ 'blog.comment_form_body' | t }}</label>
-      <textarea name="comment[body]" id="body" required>{{ form.body }}</textarea>
-    </div>
-
-    <input type="submit" value="{{ 'blog.comment_form_submit' | t }}">
-  {% endform %}
-{% endif %}
+{% stylesheet %}
+  .prose {
+    line-height: 1.6;
+  }
+  
+  .prose p {
+    margin-bottom: 1rem;
+  }
+  
+  .prose h2, .prose h3, .prose h4 {
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .prose h2 {
+    font-size: 1.5rem;
+  }
+  
+  .prose h3 {
+    font-size: 1.25rem;
+  }
+  
+  .project-image-block {
+    overflow: hidden;
+  }
+  
+  /* Mobile responsiveness for 24-column grid */
+  @media (max-width: 767px) {
+    .project-gallery {
+      grid-template-columns: repeat(12, 1fr);
+    }
+    
+    .project-gallery .project-image-block {
+      grid-column: span 6 !important; /* Minimum 6 columns on mobile */
+    }
+    
+    .project-gallery .project-image-block[style*="span 24"],
+    .project-gallery .project-image-block[style*="span 20"],
+    .project-gallery .project-image-block[style*="span 16"] {
+      grid-column: span 12 !important; /* Full width for large images */
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:general.article",
-  "settings": []
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show publish date",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Gallery Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "columns",
+          "min": 1,
+          "max": 24,
+          "step": 1,
+          "default": 12,
+          "label": "Column span (1-24)"
+        },
+        {
+          "type": "range",
+          "id": "rows",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "default": 1,
+          "label": "Row span (1-4)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Project Article",
+      "blocks": [
+        {
+          "type": "image",
+          "settings": {
+            "columns": 12
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "columns": 8
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "columns": 16
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "columns": 6
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "columns": 18
+          }
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

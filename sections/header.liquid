@@ -1,56 +1,39 @@
-<header class="px-6 md:px-10 py-4">
+<header class="px-6 md:px-10 py-4 relative">
   <div class="flex items-center justify-between">
-    <!-- Logo -->
-    <h2 class="header__title">
-      <a href="{{routes.root_url}}">
-        <img src="https://cdn.shopify.com/s/files/1/0813/2401/5851/files/logo.png?v=1772656190" class="w-12" />
-      </a>
-    </h2>
+    <!-- Hamburger Menu Button -->
+    <button id="menu-toggle" class="hamburger z-50 relative">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
 
-    <!-- Desktop Navigation -->
-    <div class="header__menu hidden md:flex">
-      {% for link in linklists.main-menu.links -%}
-        <a href="{{ link.url }}" class="text-sm uppercase tracking-widest font-bold hover:opacity-60 transition-opacity">
-          {{ link.title }}
-        </a>
-      {%- endfor %}
-    </div>
+    <!-- Cart Icon -->
+    <a href="{{ routes.cart_url }}" class="relative z-50">
+      {% if cart.item_count > 0 %}
+        <sup class="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">{{ cart.item_count }}</sup>
+      {% endif %}
+      {{ 'icon-cart.svg' | inline_asset_content }}
+    </a>
+  </div>
 
-    <!-- Mobile Menu Toggle + Icons -->
-    <div class="flex items-center gap-4">
-      <!-- Mobile Hamburger Menu -->
-      <details class="md:hidden group">
-        <summary class="cursor-pointer list-none">
-          <div class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </summary>
-        <div class="mobile-menu absolute top-full right-0 bg-white border border-neutral-200 min-w-48 z-50">
-          {% for link in linklists.main-menu.links -%}
-            <a href="{{ link.url }}" class="block px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-neutral-50 border-b border-neutral-100 last:border-b-0">
-              {{ link.title }}
-            </a>
-          {%- endfor %}
-        </div>
-      </details>
-
-      <!-- Header Icons -->
-      <div class="header__icons flex items-center gap-4">
-        {% if shop.customer_accounts_enabled %}
-          <shopify-account menu="{{ section.settings.customer_account_menu }}">
-            {{ 'icon-account.svg' | inline_asset_content }}
-          </shopify-account>
-        {% endif %}
-
-        <a href="{{ routes.cart_url }}" class="relative">
-          {% if cart.item_count > 0 %}
-            <sup class="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">{{ cart.item_count }}</sup>
-          {% endif %}
-          {{ 'icon-cart.svg' | inline_asset_content }}
-        </a>
-      </div>
+  <!-- Slide-out Menu Panel -->
+  <div id="menu-panel" class="menu-panel fixed top-0 left-0 w-full h-full bg-white/60 backdrop-blur-sm transform -translate-x-full transition-transform duration-300 ease-in-out z-40">
+    <div class="flex flex-col justify-center items-center h-full">
+      {% assign menu_links = linklists[section.settings.menu].links %}
+      {% if menu_links.size > 0 %}
+        {% for link in menu_links %}
+          <a href="{{ link.url }}" class="menu-link text-[40px] md:text-[60px] uppercase tracking-tighter font-bold hover:opacity-60 transition-opacity py-2">
+            {{ link.title }}
+          </a>
+        {% endfor %}
+      {% else %}
+        <!-- Default menu items -->
+        <a href="/collections" class="menu-link text-[40px] md:text-[60px] uppercase tracking-tighter font-bold hover:opacity-60 transition-opacity py-2">Lessons</a>
+        <a href="/pages/dnd" class="menu-link text-[40px] md:text-[60px] uppercase tracking-tighter font-bold hover:opacity-60 transition-opacity py-2">D&D</a>
+        <a href="{{ routes.cart_url }}" class="menu-link text-[40px] md:text-[60px] uppercase tracking-tighter font-bold hover:opacity-60 transition-opacity py-2">Cart</a>
+        <a href="/pages/about" class="menu-link text-[40px] md:text-[60px] uppercase tracking-tighter font-bold hover:opacity-60 transition-opacity py-2">About</a>
+        <a href="/pages/contact" class="menu-link text-[40px] md:text-[60px] uppercase tracking-tighter font-bold hover:opacity-60 transition-opacity py-2">Contact</a>
+      {% endif %}
     </div>
   </div>
 </header>
@@ -67,9 +50,6 @@
     width: 1.5rem;
     height: 1.5rem;
   }
-  .header__menu {
-    gap: 2rem;
-  }
   
   /* Hamburger Menu Styles */
   .hamburger {
@@ -79,28 +59,89 @@
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
   }
-  .hamburger span {
+  
+  .hamburger-line {
     display: block;
     height: 2px;
     width: 100%;
     background-color: black;
     transition: all 0.3s ease;
   }
-  details[open] .hamburger span:first-child {
+  
+  .hamburger.menu-open .hamburger-line:first-child {
     transform: rotate(45deg) translate(6px, 6px);
   }
-  details[open] .hamburger span:nth-child(2) {
+  .hamburger.menu-open .hamburger-line:nth-child(2) {
     opacity: 0;
   }
-  details[open] .hamburger span:last-child {
+  .hamburger.menu-open .hamburger-line:last-child {
     transform: rotate(-45deg) translate(6px, -6px);
   }
   
-  .mobile-menu {
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  /* Menu Panel */
+  .menu-panel.menu-open {
+    transform: translateX(0);
+  }
+  
+  .menu-link {
+    display: block;
+    text-align: center;
   }
 {% endstylesheet %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuPanel = document.getElementById('menu-panel');
+    const menuLinks = document.querySelectorAll('.menu-link');
+    
+    function openMenu() {
+      menuToggle.classList.add('menu-open');
+      menuPanel.classList.add('menu-open');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeMenu() {
+      menuToggle.classList.remove('menu-open');
+      menuPanel.classList.remove('menu-open');
+      document.body.style.overflow = '';
+    }
+    
+    // Toggle menu on hamburger click
+    menuToggle.addEventListener('click', function() {
+      if (menuPanel.classList.contains('menu-open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+    
+    // Close menu when clicking outside
+    menuPanel.addEventListener('click', function(e) {
+      if (e.target === menuPanel) {
+        closeMenu();
+      }
+    });
+    
+    // Close menu on menu link click
+    menuLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        closeMenu();
+      });
+    });
+    
+    // Close menu on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && menuPanel.classList.contains('menu-open')) {
+        closeMenu();
+      }
+    });
+  });
+</script>
 
 {% schema %}
 {
@@ -109,7 +150,8 @@
     {
       "type": "link_list",
       "id": "menu",
-      "label": "t:labels.menu"
+      "label": "t:labels.menu",
+      "default": "main-menu"
     },
     {
       "type": "link_list",
