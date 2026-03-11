@@ -40,11 +40,15 @@
       "blocks": {
         "img_1": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/00021.jpg"
+          }
         },
         "img_2": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/2025-08-29_04-29-33.png"
+          }
         }
       },
       "block_order": [
