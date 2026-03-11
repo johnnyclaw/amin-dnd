@@ -1,14 +1,99 @@
-<section class="about">
-  <h1>{{ page.title }}</h1>
-  <div class="about__content">
-    {{ page.content }}
+<section class="about px-6 md:px-10 py-12 md:py-16">
+  <div class="max-w-4xl mx-auto">
+    <!-- Feature Image -->
+    {% if section.settings.feature_image %}
+      <div class="mb-8 md:mb-12">
+        <img src="{{ section.settings.feature_image | image_url: width: 1200 }}" 
+             alt="{{ section.settings.feature_image.alt | default: page.title }}"
+             class="w-full aspect-[3/2] object-cover">
+      </div>
+    {% endif %}
+
+    <!-- Title -->
+    <header class="text-center mb-8 md:mb-12">
+      <h1 class="text-[40px] md:text-[56px] font-bold uppercase tracking-tighter mb-4">
+        {{ page.title }}
+      </h1>
+      
+      {% if section.settings.subtitle %}
+        <p class="text-lg md:text-xl text-neutral-600 leading-relaxed max-w-2xl mx-auto">
+          {{ section.settings.subtitle }}
+        </p>
+      {% endif %}
+    </header>
+
+    <!-- Content -->
+    <div class="about__content prose prose-lg max-w-3xl mx-auto">
+      <div class="text-neutral-600 leading-relaxed space-y-6">
+        {{ page.content }}
+      </div>
+    </div>
   </div>
 </section>
+
+{% stylesheet %}
+  .about .prose p {
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+    color: rgb(82 82 91); /* text-neutral-600 */
+  }
+  
+  .about .prose h2,
+  .about .prose h3,
+  .about .prose h4 {
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: black;
+  }
+  
+  .about .prose h2 {
+    font-size: 1.5rem;
+  }
+  
+  .about .prose h3 {
+    font-size: 1.25rem;
+  }
+  
+  .about .prose strong {
+    font-weight: bold;
+    color: black;
+  }
+  
+  .about .prose em {
+    font-style: italic;
+  }
+  
+  .about .prose ul,
+  .about .prose ol {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+  }
+  
+  .about .prose li {
+    margin-bottom: 0.5rem;
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
   "name": "About",
-  "settings": [],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "feature_image",
+      "label": "Feature Image",
+      "info": "Optional hero image displayed at the top of the about page"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "info": "Optional subtitle text displayed below the main title"
+    }
+  ],
   "disabled_on": {
     "groups": ["header", "footer"]
   }

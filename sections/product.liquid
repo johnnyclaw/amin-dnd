@@ -5,56 +5,69 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/product
 {% endcomment %}
 
-<div class="grid grid-cols-2 gap-12">
+<div class="px-6 md:px-10 py-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
   <div class="relative">
-    <div class="sticky top-8 flex flex-col gap-8">
+    <div class="md:sticky md:top-8 flex flex-col gap-6 md:gap-8">
       <div class="flex justify-between">
-        <h1 class="font-bold">{{ product.title }}</h1>
+        <h1 class="text-[32px] md:text-[40px] font-bold uppercase tracking-tighter">{{ product.title }}</h1>
       </div>
 
       <div class="flex flex-col gap-4">
         {% form 'product', product %}
           {% assign current_variant = product.selected_or_first_available_variant %}
+          
+          <div class="text-2xl font-bold">
+            {{ current_variant.price | money }}
+          </div>
 
-          <select name="id" class="p-4 w-full my-2 border border-1 border-black">
-            {% for variant in product.variants %}
-              <option
-                value="{{ variant.id }}"
-                {% if variant == current_variant %}
-                  selected="selected"
+          {% if product.variants.size > 1 %}
+            <select name="id" class="p-3 w-full border border-black text-sm uppercase tracking-wide">
+              {% for variant in product.variants %}
+                <option
+                  value="{{ variant.id }}"
+                  {% if variant == current_variant %}
+                    selected="selected"
+                  {% endif %}
+                >
+                {{ variant.title }} - {{ variant.price | money }}               
+                {% if variant.compare_at_price > variant.price %}
+                  {% assign price_difference = variant.compare_at_price | minus: variant.price %}
+                  <span>(Save {{ price_difference | money }})</span>
                 {% endif %}
-              >
-              {{ variant.title }} - {{ variant.price | money }}               
-              {% if variant.compare_at_price > variant.price %}
-                {% assign price_difference = variant.compare_at_price | minus: variant.price %}
-                <span>(Save {{ price_difference | money }})</span>
-              {% endif %}
-              </option>
-            {% endfor %}
+                </option>
+              {% endfor %}
+            </select>
+          {% else %}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+          {% endif %}
+          
+          <input type="hidden" name="quantity" min="1" value="1">
 
-          </select>
-          <input class="hidden" type="text" name="quantity" min="1" value="1">
-
-          <input type="submit" value="Add to cart" class="hidden py-4">
-          <div class="py-2" style="margin-top: 12px;">
-          {{ form | payment_button }}
+          <input type="submit" value="Add to cart" class="w-full border border-black py-3 text-sm uppercase tracking-widest font-bold hover:bg-black hover:text-white transition-colors duration-300">
+          
+          <div class="mt-2">
+            {{ form | payment_button }}
           </div>
         {% endform %}
       </div>
 
-      <details>
-        <summary>Details</summary>
-        <p>{{ product.description }}</p>
+      <details class="border-t border-neutral-200 pt-6">
+        <summary class="cursor-pointer text-sm uppercase tracking-widest font-bold">Product Details</summary>
+        <div class="mt-4 text-neutral-600 leading-relaxed">
+          {{ product.description }}
+        </div>
       </details>
 
     </div>
   </div>
 
-  <div class="product-images grid grid-cols-1 gap-8">
+  <div class="product-images grid grid-cols-1 gap-4 md:gap-8 order-first md:order-last">
     {% for image in product.images %}
-      {% render 'image', class: 'product-image rounded-xl opacity-70', image: image %}
+      {% render 'image', class: 'product-image w-full aspect-square object-cover', image: image %}
     {% endfor %}
   </div>
+</div>
 </div>
 
 

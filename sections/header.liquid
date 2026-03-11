@@ -1,63 +1,104 @@
-<header>
-  <h2 class="header__title">
-    <a href="{{routes.root_url}}">
-      <img src="https://cdn.shopify.com/s/files/1/0813/2401/5851/files/logo.png?v=1772656190" class="w-12" />
-    </a>
-  </h2>
+<header class="px-6 md:px-10 py-4">
+  <div class="flex items-center justify-between">
+    <!-- Logo -->
+    <h2 class="header__title">
+      <a href="{{routes.root_url}}">
+        <img src="https://cdn.shopify.com/s/files/1/0813/2401/5851/files/logo.png?v=1772656190" class="w-12" />
+      </a>
+    </h2>
 
-  {% comment %}
-  <div class="header__menu">
-    {% for link in linklists.main-menu.links -%}
-      {{ link.title | link_to: link.url  }}
-    {%- endfor %}
-  </div>
-  {% endcomment %}
+    <!-- Desktop Navigation -->
+    <div class="header__menu hidden md:flex">
+      {% for link in linklists.main-menu.links -%}
+        <a href="{{ link.url }}" class="text-sm uppercase tracking-widest font-bold hover:opacity-60 transition-opacity">
+          {{ link.title }}
+        </a>
+      {%- endfor %}
+    </div>
 
-  <div class="header__icons">
-    {% if shop.customer_accounts_enabled %}
-      <shopify-account menu="{{ section.settings.customer_account_menu }}">
-        {{ 'icon-account.svg' | inline_asset_content }}
-      </shopify-account>
-    {% endif %}
+    <!-- Mobile Menu Toggle + Icons -->
+    <div class="flex items-center gap-4">
+      <!-- Mobile Hamburger Menu -->
+      <details class="md:hidden group">
+        <summary class="cursor-pointer list-none">
+          <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </summary>
+        <div class="mobile-menu absolute top-full right-0 bg-white border border-neutral-200 min-w-48 z-50">
+          {% for link in linklists.main-menu.links -%}
+            <a href="{{ link.url }}" class="block px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-neutral-50 border-b border-neutral-100 last:border-b-0">
+              {{ link.title }}
+            </a>
+          {%- endfor %}
+        </div>
+      </details>
 
-    <a href="{{ routes.cart_url }}">
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
-      {% endif %}
+      <!-- Header Icons -->
+      <div class="header__icons flex items-center gap-4">
+        {% if shop.customer_accounts_enabled %}
+          <shopify-account menu="{{ section.settings.customer_account_menu }}">
+            {{ 'icon-account.svg' | inline_asset_content }}
+          </shopify-account>
+        {% endif %}
 
-      {{ 'icon-cart.svg' | inline_asset_content }}
-    </a>
+        <a href="{{ routes.cart_url }}" class="relative">
+          {% if cart.item_count > 0 %}
+            <sup class="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">{{ cart.item_count }}</sup>
+          {% endif %}
+          {{ 'icon-cart.svg' | inline_asset_content }}
+        </a>
+      </div>
+    </div>
   </div>
 </header>
 
 {% stylesheet %}
   header {
-    height: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    position: relative;
   }
   header a {
-    position: relative;
     text-decoration: none;
-    color: var(--color-foreground);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  header a sup {
-    position: absolute;
-    left: 100%;
-    overflow: hidden;
-    max-width: var(--page-margin);
+    color: black;
   }
   header svg {
-    width: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
-  header .header__menu,
-  header .header__icons {
+  .header__menu {
+    gap: 2rem;
+  }
+  
+  /* Hamburger Menu Styles */
+  .hamburger {
+    width: 24px;
+    height: 18px;
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .hamburger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: black;
+    transition: all 0.3s ease;
+  }
+  details[open] .hamburger span:first-child {
+    transform: rotate(45deg) translate(6px, 6px);
+  }
+  details[open] .hamburger span:nth-child(2) {
+    opacity: 0;
+  }
+  details[open] .hamburger span:last-child {
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+  
+  .mobile-menu {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   }
 {% endstylesheet %}
 
