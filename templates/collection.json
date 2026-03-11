@@ -1,20 +1,54 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "main": {
-      "type": "collection",
-      "settings": {}
+    "los_angeles": {
+      "type": "editorial-link",
+      "settings": {
+        "heading": "Los Angeles",
+        "subheading": "California",
+        "url": "/products/la",
+        "layout": "grid"
+      },
+      "blocks": {
+        "img_1": { "type": "image", "settings": { "full_width": false } },
+        "img_2": { "type": "image", "settings": { "full_width": false } },
+        "img_3": { "type": "image", "settings": { "full_width": false } },
+        "img_4": { "type": "image", "settings": { "full_width": false } }
+      },
+      "block_order": ["img_1", "img_2", "img_3", "img_4"]
+    },
+    "nyc": {
+      "type": "editorial-link",
+      "settings": {
+        "heading": "NYC",
+        "subheading": "New York",
+        "url": "/products/nyc",
+        "layout": "grid"
+      },
+      "blocks": {
+        "img_1": { "type": "image", "settings": { "full_width": true } },
+        "img_2": { "type": "image", "settings": { "full_width": false } },
+        "img_3": { "type": "image", "settings": { "full_width": false } }
+      },
+      "block_order": ["img_1", "img_2", "img_3"]
+    },
+    "virtual": {
+      "type": "editorial-link",
+      "settings": {
+        "heading": "Virtual",
+        "subheading": "Anywhere",
+        "url": "/products/virtual",
+        "layout": "grid"
+      },
+      "blocks": {
+        "img_1": { "type": "image", "settings": { "full_width": true } },
+        "img_2": { "type": "image", "settings": { "full_width": true } }
+      },
+      "block_order": ["img_1", "img_2"]
     }
   },
   "order": [
-    "main"
+    "los_angeles",
+    "nyc",
+    "virtual"
   ]
 }
