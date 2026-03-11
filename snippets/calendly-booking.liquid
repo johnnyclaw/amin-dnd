@@ -1,0 +1,43 @@
+{% comment %}
+  Calendly booking link resolver.
+  Pass a product object and it resolves the correct Calendly URL based on tags.
+
+  Usage in sections/templates:
+    {% render 'calendly-booking', product: item.product %}
+
+  Usage in order confirmation email (Shopify Notifications):
+    Copy the logic below into Settings → Notifications → Order confirmation.
+    See README or HANDOFF.md for the exact code to paste.
+
+  Tag mapping:
+    nyc     → https://calendly.com/aminalisaleh/2x-nyc
+    la      → https://calendly.com/aminalisaleh/2x-la
+    virtual → https://calendly.com/aminalisaleh/2x-virtual
+{% endcomment %}
+
+{% assign booking_url = blank %}
+
+{% for tag in product.tags %}
+  {% assign tag_lower = tag | downcase %}
+  {% if tag_lower == 'nyc' %}
+    {% assign booking_url = 'https://calendly.com/aminalisaleh/2x-nyc' %}
+  {% elsif tag_lower == 'la' %}
+    {% assign booking_url = 'https://calendly.com/aminalisaleh/2x-la' %}
+  {% elsif tag_lower == 'virtual' %}
+    {% assign booking_url = 'https://calendly.com/aminalisaleh/2x-virtual' %}
+  {% endif %}
+{% endfor %}
+
+{% if booking_url != blank %}
+  <div style="margin-top: 1.5rem; padding: 1.5rem; border: 2px solid black; text-align: center;">
+    <p style="font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem;">
+      You're in! Now book your session:
+    </p>
+    <a href="{{ booking_url }}"
+       target="_blank"
+       rel="noopener"
+       style="display: inline-block; background: black; color: white; padding: 0.75rem 2rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none;">
+      Schedule on Calendly →
+    </a>
+  </div>
+{% endif %}

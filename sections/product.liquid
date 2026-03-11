@@ -52,6 +52,8 @@
         {% endform %}
       </div>
 
+      {% render 'calendly-booking', product: product %}
+
       <details class="border-t border-neutral-200 pt-6">
         <summary class="cursor-pointer text-sm uppercase tracking-widest font-bold">Product Details</summary>
         <div class="mt-4 text-neutral-600 leading-relaxed">
@@ -74,7 +76,30 @@
 {% schema %}
 {
   "name": "t:general.product",
-  "settings": [],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Calendly Booking"
+    },
+    {
+      "type": "text",
+      "id": "calendly_url_nyc",
+      "label": "Calendly URL (nyc tag)",
+      "default": "https://calendly.com/aminalisaleh/2x-nyc"
+    },
+    {
+      "type": "text",
+      "id": "calendly_url_la",
+      "label": "Calendly URL (la tag)",
+      "default": "https://calendly.com/aminalisaleh/2x-la"
+    },
+    {
+      "type": "text",
+      "id": "calendly_url_virtual",
+      "label": "Calendly URL (virtual tag)",
+      "default": "https://calendly.com/aminalisaleh/2x-virtual"
+    }
+  ],
   "disabled_on": {
     "groups": ["header", "footer"]
   }

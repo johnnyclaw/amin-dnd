@@ -1,0 +1,53 @@
+{% comment %}
+  ============================================================
+  CALENDLY BOOKING — ORDER CONFIRMATION EMAIL SNIPPET
+
+  Paste this code into:
+  Shopify Admin → Settings → Notifications → Order confirmation
+
+  Add it AFTER the order summary table, BEFORE the closing
+  </table> or footer section.
+
+  This loops through line items and shows the appropriate
+  Calendly link based on product tags.
+  ============================================================
+{% endcomment %}
+
+<!-- ========== PASTE BELOW INTO ORDER CONFIRMATION EMAIL ========== -->
+
+{% for line in line_items %}
+  {% assign has_booking = false %}
+  {% assign booking_url = "" %}
+
+  {% for tag in line.product.tags %}
+    {% assign tag_lower = tag | downcase %}
+    {% if tag_lower == "nyc" %}
+      {% assign has_booking = true %}
+      {% assign booking_url = "https://calendly.com/aminalisaleh/2x-nyc" %}
+    {% elsif tag_lower == "la" %}
+      {% assign has_booking = true %}
+      {% assign booking_url = "https://calendly.com/aminalisaleh/2x-la" %}
+    {% elsif tag_lower == "virtual" %}
+      {% assign has_booking = true %}
+      {% assign booking_url = "https://calendly.com/aminalisaleh/2x-virtual" %}
+    {% endif %}
+  {% endfor %}
+
+  {% if has_booking %}
+    <table class="row" style="width: 100%; border-spacing: 0; margin-top: 16px;">
+      <tr>
+        <td style="padding: 20px; border: 2px solid #000000; text-align: center;">
+          <p style="font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 8px 0; color: #000000;">
+            📅 Book your session: {{ line.product.title }}
+          </p>
+          <a href="{{ booking_url }}" target="_blank"
+             style="display: inline-block; background-color: #000000; color: #ffffff; padding: 12px 32px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; margin-top: 8px;">
+            Schedule on Calendly →
+          </a>
+        </td>
+      </tr>
+    </table>
+  {% endif %}
+{% endfor %}
+
+<!-- ========== END CALENDLY SNIPPET ========== -->
