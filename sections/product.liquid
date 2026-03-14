@@ -1,26 +1,10 @@
 <style>
-  .product-page {
-    position: relative;
-    padding-bottom: 320px; /* space for sticky panel on mobile */
-  }
-  @media (min-width: 768px) {
-    .product-page {
-      padding-bottom: 280px;
-    }
-  }
-
-  .product-images-grid {
+  /* Mobile: images then sticky bottom panel */
+  .product-mobile-images {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-    padding: 0.5rem;
-  }
-  @media (min-width: 768px) {
-    .product-images-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      padding: 1rem;
-    }
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.25rem;
+    padding: 0.25rem;
   }
 
   .product-sticky-panel {
@@ -35,10 +19,14 @@
     border-top: 1px solid rgba(0, 0, 0, 0.08);
     padding: 1rem 1.5rem;
   }
-  @media (min-width: 768px) {
-    .product-sticky-panel {
-      padding: 1.5rem 2.5rem;
-    }
+
+  .product-desktop-layout {
+    display: none;
+  }
+
+  .product-mobile-layout {
+    display: block;
+    padding-bottom: 320px;
   }
 
   .product-sticky-panel h1 {
@@ -48,33 +36,14 @@
     letter-spacing: -0.03em;
     margin: 0;
   }
-  @media (min-width: 768px) {
-    .product-sticky-panel h1 {
-      font-size: 1.5rem;
-    }
-  }
-
   .product-sticky-panel .product-price {
     font-size: 0.875rem;
     font-weight: 700;
   }
-  @media (min-width: 768px) {
-    .product-sticky-panel .product-price {
-      font-size: 1.125rem;
-    }
-  }
-
   .product-sticky-panel select {
     font-size: 0.75rem;
     padding: 0.5rem;
   }
-  @media (min-width: 768px) {
-    .product-sticky-panel select {
-      font-size: 0.875rem;
-      padding: 0.625rem;
-    }
-  }
-
   .product-sticky-panel .btn-add-cart {
     width: 100%;
     border: 1px solid black;
@@ -91,24 +60,12 @@
     background: black;
     color: white;
   }
-  @media (min-width: 768px) {
-    .product-sticky-panel .btn-add-cart {
-      padding: 0.75rem;
-      font-size: 0.75rem;
-    }
-  }
-
   .product-sticky-panel details summary {
     font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     cursor: pointer;
-  }
-  @media (min-width: 768px) {
-    .product-sticky-panel details summary {
-      font-size: 0.75rem;
-    }
   }
   .product-sticky-panel details .description-content {
     font-size: 0.75rem;
@@ -118,33 +75,77 @@
     overflow-y: auto;
     margin-top: 0.5rem;
   }
+
+  /* Desktop: sidebar left, images right */
+  @media (min-width: 768px) {
+    .product-mobile-layout {
+      display: none;
+    }
+    .product-desktop-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      padding: 2rem 2.5rem;
+    }
+    .product-desktop-sidebar {
+      position: sticky;
+      top: 5rem;
+      align-self: start;
+    }
+    .product-desktop-sidebar h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+    }
+    .product-desktop-images {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
 </style>
 
-<div class="product-page">
-  <!-- Full-bleed image grid -->
-  <div class="product-images-grid">
-    {% for image in product.images %}
-      {% render 'image', class: 'w-full aspect-square object-cover', image: image %}
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<!-- ===== MOBILE LAYOUT ===== -->
+<div class="product-mobile-layout">
+  <div class="product-mobile-images">
+    {% for block in section.blocks %}
+      {% if block.type == 'product_image' %}
+        {% assign col_span = block.settings.mobile_columns | default: 2 %}
+        {% assign img_index = block.settings.image_index | default: forloop.index | minus: 1 %}
+        {% assign product_image = product.images[img_index] %}
+        {% if product_image %}
+          <div style="grid-column: span {{ col_span }};" {{ block.shopify_attributes }}>
+            {% render 'image', class: 'w-full aspect-square object-cover', image: product_image %}
+          </div>
+        {% endif %}
+      {% endif %}
     {% endfor %}
+
+    {% comment %} Fallback if no blocks configured {% endcomment %}
+    {% if section.blocks.size == 0 %}
+      {% for image in product.images %}
+        <div style="grid-column: span 2;">
+          {% render 'image', class: 'w-full aspect-square object-cover', image: image %}
+        </div>
+      {% endfor %}
+    {% endif %}
   </div>
 
-  <!-- Sticky bottom panel -->
   <div class="product-sticky-panel">
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
       <h1>{{ product.title }}</h1>
-      {% assign current_variant = product.selected_or_first_available_variant %}
       <span class="product-price">{{ current_variant.price | money }}</span>
     </div>
 
     {% form 'product', product %}
       <div style="display: flex; flex-direction: column; gap: 0.625rem;">
         {% if product.variants.size > 1 %}
-          <select name="id" style="width: 100%; border: 1px solid black; text-transform: uppercase; letter-spacing: 0.05em;">
+          <select name="id" style="width: 100%; border: 1px solid black; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75rem; padding: 0.5rem;">
             {% for variant in product.variants %}
-              <option
-                value="{{ variant.id }}"
-                {% if variant == current_variant %}selected{% endif %}
-              >
+              <option value="{{ variant.id }}" {% if variant == current_variant %}selected{% endif %}>
                 {{ variant.title }} - {{ variant.price | money }}
                 {% if variant.compare_at_price > variant.price %}
                   {% assign price_difference = variant.compare_at_price | minus: variant.price %}
@@ -158,14 +159,8 @@
         {% endif %}
 
         <input type="hidden" name="quantity" min="1" value="1">
-
-        <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem;">
-          <input type="submit" value="Add to cart" class="btn-add-cart">
-        </div>
-
-        <div style="margin-top: 0.25rem;">
-          {{ form | payment_button }}
-        </div>
+        <input type="submit" value="Add to cart" class="btn-add-cart">
+        <div>{{ form | payment_button }}</div>
       </div>
     {% endform %}
 
@@ -173,10 +168,64 @@
 
     <details style="margin-top: 0.75rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 0.75rem;">
       <summary>Product Details</summary>
-      <div class="description-content">
+      <div class="description-content">{{ product.description }}</div>
+    </details>
+  </div>
+</div>
+
+<!-- ===== DESKTOP LAYOUT ===== -->
+<div class="product-desktop-layout">
+  <div class="product-desktop-sidebar">
+    <h1>{{ product.title }}</h1>
+
+    <div style="margin-top: 1.5rem;">
+      <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem;">
+        {{ current_variant.price | money }}
+      </div>
+
+      {% form 'product', product %}
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          {% if product.variants.size > 1 %}
+            <select name="id" style="width: 100%; border: 1px solid black; padding: 0.75rem; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
+              {% for variant in product.variants %}
+                <option value="{{ variant.id }}" {% if variant == current_variant %}selected{% endif %}>
+                  {{ variant.title }} - {{ variant.price | money }}
+                  {% if variant.compare_at_price > variant.price %}
+                    {% assign price_difference = variant.compare_at_price | minus: variant.price %}
+                    (Save {{ price_difference | money }})
+                  {% endif %}
+                </option>
+              {% endfor %}
+            </select>
+          {% else %}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+          {% endif %}
+
+          <input type="hidden" name="quantity" min="1" value="1">
+
+          <input type="submit" value="Add to cart" style="width: 100%; border: 1px solid black; padding: 0.875rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; background: transparent; cursor: pointer; transition: background 0.3s, color 0.3s;" onmouseover="this.style.background='black';this.style.color='white'" onmouseout="this.style.background='transparent';this.style.color='black'">
+
+          <div style="margin-top: 0.5rem;">
+            {{ form | payment_button }}
+          </div>
+        </div>
+      {% endform %}
+    </div>
+
+    {% render 'calendly-booking', product: product %}
+
+    <details style="margin-top: 2rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 1.5rem;">
+      <summary style="cursor: pointer; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">Product Details</summary>
+      <div style="margin-top: 1rem; color: #666; line-height: 1.6; font-size: 0.875rem;">
         {{ product.description }}
       </div>
     </details>
+  </div>
+
+  <div class="product-desktop-images">
+    {% for image in product.images %}
+      {% render 'image', class: 'w-full', image: image %}
+    {% endfor %}
   </div>
 </div>
 
@@ -205,6 +254,32 @@
       "id": "calendly_url_virtual",
       "label": "Calendly URL (virtual tag)",
       "default": "https://calendly.com/aminalisaleh/2x-virtual"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_image",
+      "name": "Product Image",
+      "settings": [
+        {
+          "type": "range",
+          "id": "image_index",
+          "label": "Image number (from product)",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "mobile_columns",
+          "label": "Mobile width (of 4 columns)",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "default": 2
+        }
+      ]
     }
   ],
   "disabled_on": {
