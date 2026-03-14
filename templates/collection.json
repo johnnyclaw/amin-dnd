@@ -97,12 +97,14 @@
         "img_1": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/IMG_5063.png",
             "full_width": true
           }
         },
         "img_2": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/00031.jpg",
             "full_width": true
           }
         }
