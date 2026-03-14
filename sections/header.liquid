@@ -38,11 +38,11 @@
 
     {% if section.settings.logo %}
       <a href="{{ routes.root_url }}" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-        {{ section.settings.logo | image_url: height: 64 | image_tag: class: 'h-8 w-auto' }}
+        <img src="{{ 'logo.png' | asset_url: "24x24" }}" height="24px" width="auto" alt="Description of image" />
       </a>
     {% else %}
-      <a href="{{ routes.root_url }}" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-base uppercase tracking-tight no-underline text-black">
-        {{ shop.name }}
+      <a href="{{ routes.root_url }}" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <img src="{{ 'logo.png' | asset_url: "24x24" }}" height="24px" width="auto" alt="Description of image" />
       </a>
     {% endif %}
 
