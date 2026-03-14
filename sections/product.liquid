@@ -1,77 +1,184 @@
-{% comment %}
-  This section is used in the product template to render product page with
-  media, content, and add-to-cart form.
+<style>
+  .product-page {
+    position: relative;
+    padding-bottom: 320px; /* space for sticky panel on mobile */
+  }
+  @media (min-width: 768px) {
+    .product-page {
+      padding-bottom: 280px;
+    }
+  }
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/product
-{% endcomment %}
+  .product-images-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  @media (min-width: 768px) {
+    .product-images-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      padding: 1rem;
+    }
+  }
 
-<div class="px-6 md:px-10 py-8">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-  <div class="relative">
-    <div class="md:sticky md:top-8 flex flex-col gap-6 md:gap-8">
-      <div class="flex justify-between">
-        <h1 class="text-[32px] md:text-[40px] font-bold uppercase tracking-tighter">{{ product.title }}</h1>
-      </div>
+  .product-sticky-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 1rem 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .product-sticky-panel {
+      padding: 1.5rem 2.5rem;
+    }
+  }
 
-      <div class="flex flex-col gap-4">
-        {% form 'product', product %}
-          {% assign current_variant = product.selected_or_first_available_variant %}
-          
-          <div class="text-2xl font-bold">
-            {{ current_variant.price | money }}
-          </div>
+  .product-sticky-panel h1 {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  @media (min-width: 768px) {
+    .product-sticky-panel h1 {
+      font-size: 1.5rem;
+    }
+  }
 
-          {% if product.variants.size > 1 %}
-            <select name="id" class="p-3 w-full border border-black text-sm uppercase tracking-wide">
-              {% for variant in product.variants %}
-                <option
-                  value="{{ variant.id }}"
-                  {% if variant == current_variant %}
-                    selected="selected"
-                  {% endif %}
-                >
-                {{ variant.title }} - {{ variant.price | money }}               
-                {% if variant.compare_at_price > variant.price %}
-                  {% assign price_difference = variant.compare_at_price | minus: variant.price %}
-                  <span>(Save {{ price_difference | money }})</span>
-                {% endif %}
-                </option>
-              {% endfor %}
-            </select>
-          {% else %}
-            <input type="hidden" name="id" value="{{ current_variant.id }}">
-          {% endif %}
-          
-          <input type="hidden" name="quantity" min="1" value="1">
+  .product-sticky-panel .product-price {
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+  @media (min-width: 768px) {
+    .product-sticky-panel .product-price {
+      font-size: 1.125rem;
+    }
+  }
 
-          <input type="submit" value="Add to cart" class="w-full border border-black py-3 text-sm uppercase tracking-widest font-bold hover:bg-black hover:text-white transition-colors duration-300">
-          
-          <div class="mt-2">
-            {{ form | payment_button }}
-          </div>
-        {% endform %}
-      </div>
+  .product-sticky-panel select {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+  @media (min-width: 768px) {
+    .product-sticky-panel select {
+      font-size: 0.875rem;
+      padding: 0.625rem;
+    }
+  }
 
-      {% render 'calendly-booking', product: product %}
+  .product-sticky-panel .btn-add-cart {
+    width: 100%;
+    border: 1px solid black;
+    padding: 0.625rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+  }
+  .product-sticky-panel .btn-add-cart:hover {
+    background: black;
+    color: white;
+  }
+  @media (min-width: 768px) {
+    .product-sticky-panel .btn-add-cart {
+      padding: 0.75rem;
+      font-size: 0.75rem;
+    }
+  }
 
-      <details class="border-t border-neutral-200 pt-6">
-        <summary class="cursor-pointer text-sm uppercase tracking-widest font-bold">Product Details</summary>
-        <div class="mt-4 text-neutral-600 leading-relaxed">
-          {{ product.description }}
-        </div>
-      </details>
+  .product-sticky-panel details summary {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+  }
+  @media (min-width: 768px) {
+    .product-sticky-panel details summary {
+      font-size: 0.75rem;
+    }
+  }
+  .product-sticky-panel details .description-content {
+    font-size: 0.75rem;
+    color: #666;
+    line-height: 1.6;
+    max-height: 150px;
+    overflow-y: auto;
+    margin-top: 0.5rem;
+  }
+</style>
 
-    </div>
-  </div>
-
-  <div class="product-images grid grid-cols-1 gap-4 md:gap-8 order-first md:order-last">
+<div class="product-page">
+  <!-- Full-bleed image grid -->
+  <div class="product-images-grid">
     {% for image in product.images %}
-      {% render 'image', class: 'product-image w-full aspect-square object-cover', image: image %}
+      {% render 'image', class: 'w-full aspect-square object-cover', image: image %}
     {% endfor %}
   </div>
-</div>
-</div>
 
+  <!-- Sticky bottom panel -->
+  <div class="product-sticky-panel">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+      <h1>{{ product.title }}</h1>
+      {% assign current_variant = product.selected_or_first_available_variant %}
+      <span class="product-price">{{ current_variant.price | money }}</span>
+    </div>
+
+    {% form 'product', product %}
+      <div style="display: flex; flex-direction: column; gap: 0.625rem;">
+        {% if product.variants.size > 1 %}
+          <select name="id" style="width: 100%; border: 1px solid black; text-transform: uppercase; letter-spacing: 0.05em;">
+            {% for variant in product.variants %}
+              <option
+                value="{{ variant.id }}"
+                {% if variant == current_variant %}selected{% endif %}
+              >
+                {{ variant.title }} - {{ variant.price | money }}
+                {% if variant.compare_at_price > variant.price %}
+                  {% assign price_difference = variant.compare_at_price | minus: variant.price %}
+                  (Save {{ price_difference | money }})
+                {% endif %}
+              </option>
+            {% endfor %}
+          </select>
+        {% else %}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+        {% endif %}
+
+        <input type="hidden" name="quantity" min="1" value="1">
+
+        <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem;">
+          <input type="submit" value="Add to cart" class="btn-add-cart">
+        </div>
+
+        <div style="margin-top: 0.25rem;">
+          {{ form | payment_button }}
+        </div>
+      </div>
+    {% endform %}
+
+    {% render 'calendly-booking', product: product %}
+
+    <details style="margin-top: 0.75rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 0.75rem;">
+      <summary>Product Details</summary>
+      <div class="description-content">
+        {{ product.description }}
+      </div>
+    </details>
+  </div>
+</div>
 
 {% schema %}
 {

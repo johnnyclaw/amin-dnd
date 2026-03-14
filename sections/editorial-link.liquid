@@ -8,6 +8,15 @@
   - "grid": images in a 2-col grid with optional full-width per image (collection style)
 {% endcomment %}
 
+<style>
+  @media (max-width: 639px) {
+    [style*="--mobile-width"] {
+      width: var(--mobile-width);
+      max-width: var(--mobile-width);
+    }
+  }
+</style>
+
 {% assign layout = section.settings.layout | default: 'stacked' %}
 
 <div class="grid grid-cols-1 {% if layout == 'grid' %}md:grid-cols-3{% else %}md:grid-cols-2{% endif %} gap-6 md:gap-12 pt-12">
@@ -26,10 +35,12 @@
           {% if block.settings.full_width %}
             {% assign width_class = 'sm:col-span-2' %}
           {% endif %}
-          <a href="{{ section.settings.url }}" class="flex flex-col gap-4 {{ width_class }}" {{ block.shopify_attributes }}>
+          {% assign mobile_size = block.settings.mobile_size | default: '100' %}
+          <a href="{{ section.settings.url }}" class="flex flex-col gap-4 {{ width_class }}" {{ block.shopify_attributes }}
+             style="{% if mobile_size != '100' %}--mobile-width: {{ mobile_size }}%;{% endif %}">
             {% if block.settings.image != blank %}
               {{ block.settings.image | image_url: width: 1200 | image_tag:
-                class: 'w-full h-auto',
+                class: 'w-full h-auto editorial-img',
                 loading: 'lazy'
               }}
             {% else %}
@@ -116,6 +127,19 @@
           "id": "full_width",
           "label": "Full width (grid layout only)",
           "default": false
+        },
+        {
+          "type": "select",
+          "id": "mobile_size",
+          "label": "Mobile image size",
+          "options": [
+            { "value": "100", "label": "Full (100%)" },
+            { "value": "80", "label": "Large (80%)" },
+            { "value": "60", "label": "Medium (60%)" },
+            { "value": "50", "label": "Half (50%)" },
+            { "value": "40", "label": "Small (40%)" }
+          ],
+          "default": "100"
         }
       ]
     }
