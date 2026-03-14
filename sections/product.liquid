@@ -26,7 +26,6 @@
 
   .product-mobile-layout {
     display: block;
-    padding-bottom: 320px;
   }
 
   .product-sticky-panel h1 {
@@ -137,7 +136,6 @@
   <div class="product-sticky-panel">
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
       <h1>{{ product.title }}</h1>
-      <span class="product-price">{{ current_variant.price | money }}</span>
     </div>
 
     {% form 'product', product %}
@@ -163,8 +161,6 @@
         <div>{{ form | payment_button }}</div>
       </div>
     {% endform %}
-
-    {% render 'calendly-booking', product: product %}
 
     <details style="margin-top: 0.75rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 0.75rem;">
       <summary>Product Details</summary>
