@@ -1,41 +1,6 @@
 <style>
-  .contact-widget {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    z-index: 55;
-  }
-  .contact-btn {
-    width: 3.5rem;
-    height: 3.5rem;
-    background: black;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transition: background 0.2s ease;
-    position: relative;
-  }
-  .contact-btn:hover { background: #333; }
-  .contact-btn svg { width: 1.5rem; height: 1.5rem; transition: opacity 0.2s ease; position: absolute; }
-  .contact-btn .icon-close { opacity: 0; }
-  .contact-widget.is-open .contact-btn .icon-mail { opacity: 0; }
-  .contact-widget.is-open .contact-btn .icon-close { opacity: 1; }
-
+  /* Only styles Tailwind can't handle: scale transition + icon swap */
   .contact-form-panel {
-    position: absolute;
-    bottom: 4.5rem;
-    right: 0;
-    width: 320px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-    border: 1px solid #e5e5e5;
-    padding: 1.5rem;
     transform: scale(0);
     transform-origin: bottom right;
     transition: transform 0.3s ease;
@@ -45,97 +10,60 @@
     transform: scale(1);
     pointer-events: auto;
   }
-
-  .contact-form-panel label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: #555;
-    margin-bottom: 0.25rem;
-  }
-  .contact-form-panel input,
-  .contact-form-panel textarea {
-    width: 100%;
-    border: 1px solid #d4d4d4;
-    padding: 0.75rem;
-    font-size: 0.875rem;
-    border-radius: 4px;
-    outline: none;
-  }
-  .contact-form-panel input:focus,
-  .contact-form-panel textarea:focus {
-    border-color: #888;
-  }
-  .contact-form-panel textarea { resize: none; }
-  .contact-form-panel .submit-btn {
-    width: 100%;
-    background: black;
-    color: white;
-    border: none;
-    padding: 0.75rem;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-weight: 700;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.2s ease;
-  }
-  .contact-form-panel .submit-btn:hover { background: #333; }
-
-  @media (max-width: 480px) {
-    .contact-form-panel {
-      width: calc(100vw - 3rem);
-      right: 0;
-    }
-  }
+  .contact-btn .icon-close { opacity: 0; }
+  .contact-widget.is-open .contact-btn .icon-mail { opacity: 0; }
+  .contact-widget.is-open .contact-btn .icon-close { opacity: 1; }
 </style>
 
-<div class="contact-widget" id="contact-widget">
-  <button class="contact-btn" id="contact-btn" aria-label="Contact">
-    <svg class="icon-mail" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<div class="contact-widget fixed bottom-6 right-6 z-50" id="contact-widget">
+  <!-- Trigger Button -->
+  <button class="contact-btn w-14 h-14 bg-black hover:bg-neutral-800 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 relative border-none cursor-pointer" id="contact-btn" aria-label="Contact">
+    <svg class="icon-mail w-6 h-6 absolute transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
     </svg>
-    <svg class="icon-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg class="icon-close w-6 h-6 absolute transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
     </svg>
   </button>
 
-  <div class="contact-form-panel" id="contact-panel">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-      <h3 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;">Contact Us</h3>
-      <button id="panel-close-btn" style="background: none; border: none; cursor: pointer; color: #999; font-size: 1.25rem; line-height: 1;">×</button>
+  <!-- Contact Form Panel -->
+  <div class="contact-form-panel absolute bottom-16 right-0 w-80 max-sm:w-[calc(100vw-3rem)] bg-white rounded-lg shadow-xl border border-neutral-200 p-6" id="contact-panel">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xs uppercase tracking-widest font-bold">Contact Us</h3>
+      <button id="panel-close-btn" class="text-neutral-400 hover:text-neutral-600 transition-colors bg-transparent border-none cursor-pointer text-xl leading-none">×</button>
     </div>
 
     {% form 'contact' %}
       {% if form.posted_successfully? %}
-        <div style="margin-bottom: 1rem; padding: 0.75rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 4px; color: #166534; font-size: 0.875rem;">
+        <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded text-green-800 text-sm">
           Thank you! We'll get back to you soon.
         </div>
       {% endif %}
 
       {% if form.errors %}
-        <div style="margin-bottom: 1rem; padding: 0.75rem; background: #fef2f2; border: 1px solid #fecaca; border-radius: 4px; color: #991b1b; font-size: 0.875rem;">
+        <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded text-red-800 text-sm">
           {% for field in form.errors %}
             <p>{{ field | capitalize }} {{ form.errors.messages[field] }}</p>
           {% endfor %}
         </div>
       {% endif %}
 
-      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+      <div class="flex flex-col gap-3">
         <div>
-          <label for="cw-name">Name</label>
-          <input type="text" name="contact[name]" id="cw-name" value="{{ form.name }}" required>
+          <label for="cw-name" class="block text-xs font-medium text-neutral-700 mb-1">Name</label>
+          <input type="text" name="contact[name]" id="cw-name" value="{{ form.name }}" required class="border border-neutral-300 p-3 w-full text-sm rounded focus:outline-none focus:border-neutral-500">
         </div>
         <div>
-          <label for="cw-email">Email</label>
-          <input type="email" name="contact[email]" id="cw-email" value="{{ form.email }}" required>
+          <label for="cw-email" class="block text-xs font-medium text-neutral-700 mb-1">Email</label>
+          <input type="email" name="contact[email]" id="cw-email" value="{{ form.email }}" required class="border border-neutral-300 p-3 w-full text-sm rounded focus:outline-none focus:border-neutral-500">
         </div>
         <div>
-          <label for="cw-message">Message</label>
-          <textarea name="contact[body]" id="cw-message" rows="4" required>{{ form.body }}</textarea>
+          <label for="cw-message" class="block text-xs font-medium text-neutral-700 mb-1">Message</label>
+          <textarea name="contact[body]" id="cw-message" rows="4" required class="border border-neutral-300 p-3 w-full text-sm rounded focus:outline-none focus:border-neutral-500 resize-none">{{ form.body }}</textarea>
         </div>
-        <button type="submit" class="submit-btn">Send Message</button>
+        <button type="submit" class="w-full bg-black text-white py-3 text-xs uppercase tracking-widest font-bold hover:bg-neutral-800 transition-colors rounded border-none cursor-pointer">
+          Send Message
+        </button>
       </div>
     {% endform %}
   </div>
@@ -148,31 +76,24 @@
     var closeBtn = document.getElementById('panel-close-btn');
     if (!widget || !btn) return;
 
-    function toggle() {
-      widget.classList.toggle('is-open');
-    }
-    function close() {
-      widget.classList.remove('is-open');
-    }
-
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
-      toggle();
+      widget.classList.toggle('is-open');
     });
 
     if (closeBtn) {
       closeBtn.addEventListener('click', function(e) {
         e.stopPropagation();
-        close();
+        widget.classList.remove('is-open');
       });
     }
 
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') close();
+      if (e.key === 'Escape') widget.classList.remove('is-open');
     });
 
     document.addEventListener('click', function(e) {
-      if (!widget.contains(e.target)) close();
+      if (!widget.contains(e.target)) widget.classList.remove('is-open');
     });
   })();
 </script>

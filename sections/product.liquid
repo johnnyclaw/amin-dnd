@@ -1,130 +1,31 @@
 <style>
-  /* Mobile: images then sticky bottom panel */
-  .product-mobile-images {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.25rem;
-    padding: 0.25rem;
-  }
-
+  /* Only styles Tailwind can't handle: dynamic grid-column spans + sticky panel blur */
   .product-sticky-panel {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 40;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-    padding: 1rem 1.5rem;
-  }
-
-  .product-desktop-layout {
-    display: none;
-  }
-
-  .product-mobile-layout {
-    display: block;
-  }
-
-  .product-sticky-panel h1 {
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: -0.03em;
-    margin: 0;
-  }
-  .product-sticky-panel .product-price {
-    font-size: 0.875rem;
-    font-weight: 700;
-  }
-  .product-sticky-panel select {
-    font-size: 0.75rem;
-    padding: 0.5rem;
-  }
-  .product-sticky-panel .btn-add-cart {
-    width: 100%;
-    border: 1px solid black;
-    padding: 0.625rem;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    background: transparent;
-    cursor: pointer;
-    transition: background 0.3s, color 0.3s;
-  }
-  .product-sticky-panel .btn-add-cart:hover {
-    background: black;
-    color: white;
-  }
-  .product-sticky-panel details summary {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-  }
-  .product-sticky-panel details .description-content {
-    font-size: 0.75rem;
-    color: #666;
-    line-height: 1.6;
-    max-height: 150px;
-    overflow-y: auto;
-    margin-top: 0.5rem;
-  }
-
-  /* Desktop: sidebar left, images right */
-  @media (min-width: 768px) {
-    .product-mobile-layout {
-      display: none;
-    }
-    .product-desktop-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      padding: 2rem 2.5rem;
-    }
-    .product-desktop-sidebar {
-      position: sticky;
-      top: 5rem;
-      align-self: start;
-    }
-    .product-desktop-sidebar h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: -0.03em;
-    }
-    .product-desktop-images {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
+    backdrop-filter: blur(12px);
   }
 </style>
 
 {% assign current_variant = product.selected_or_first_available_variant %}
 
 <!-- ===== MOBILE LAYOUT ===== -->
-<div class="product-mobile-layout">
-  <div class="product-mobile-images">
-    {% for block in section.blocks %}
-      {% if block.type == 'product_image' %}
-        {% assign col_span = block.settings.mobile_columns | default: 2 %}
-        {% assign img_index = block.settings.image_index | default: forloop.index | minus: 1 %}
-        {% assign product_image = product.images[img_index] %}
-        {% if product_image %}
-          <div style="grid-column: span {{ col_span }};" {{ block.shopify_attributes }}>
-            {% render 'image', class: 'w-full aspect-square object-cover', image: product_image %}
-          </div>
+<div class="block md:hidden pb-80">
+  <!-- 4-col image grid -->
+  <div class="grid grid-cols-4 gap-1 p-1">
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'product_image' %}
+          {% assign col_span = block.settings.mobile_columns | default: 2 %}
+          {% assign img_index = block.settings.image_index | default: forloop.index | minus: 1 %}
+          {% assign product_image = product.images[img_index] %}
+          {% if product_image %}
+            <div style="grid-column: span {{ col_span }};" {{ block.shopify_attributes }}>
+              {% render 'image', class: 'w-full aspect-square object-cover', image: product_image %}
+            </div>
+          {% endif %}
         {% endif %}
-      {% endif %}
-    {% endfor %}
-
-    {% comment %} Fallback if no blocks configured {% endcomment %}
-    {% if section.blocks.size == 0 %}
+      {% endfor %}
+    {% else %}
       {% for image in product.images %}
         <div style="grid-column: span 2;">
           {% render 'image', class: 'w-full aspect-square object-cover', image: image %}
@@ -133,15 +34,17 @@
     {% endif %}
   </div>
 
-  <div class="product-sticky-panel">
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
-      <h1>{{ product.title }}</h1>
+  <!-- Sticky bottom panel -->
+  <div class="product-sticky-panel fixed bottom-0 left-0 right-0 z-40 bg-white/90 border-t border-black/5 px-6 py-4">
+    <div class="flex justify-between items-start mb-3">
+      <h1 class="text-base font-bold uppercase tracking-tight m-0">{{ product.title }}</h1>
+      <span class="text-sm font-bold">{{ current_variant.price | money }}</span>
     </div>
 
     {% form 'product', product %}
-      <div style="display: flex; flex-direction: column; gap: 0.625rem;">
+      <div class="flex flex-col gap-2.5">
         {% if product.variants.size > 1 %}
-          <select name="id" style="width: 100%; border: 1px solid black; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75rem; padding: 0.5rem;">
+          <select name="id" class="w-full border border-black text-xs uppercase tracking-wide p-2">
             {% for variant in product.variants %}
               <option value="{{ variant.id }}" {% if variant == current_variant %}selected{% endif %}>
                 {{ variant.title }} - {{ variant.price | money }}
@@ -157,32 +60,34 @@
         {% endif %}
 
         <input type="hidden" name="quantity" min="1" value="1">
-        <input type="submit" value="Add to cart" class="btn-add-cart">
+        <input type="submit" value="Add to cart" class="w-full border border-black py-2.5 text-[11px] font-bold uppercase tracking-widest bg-transparent cursor-pointer hover:bg-black hover:text-white transition-colors duration-300">
         <div>{{ form | payment_button }}</div>
       </div>
     {% endform %}
 
-    <details style="margin-top: 0.75rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 0.75rem;">
-      <summary>Product Details</summary>
-      <div class="description-content">{{ product.description }}</div>
+    {% render 'calendly-booking', product: product %}
+
+    <details class="mt-3 border-t border-black/10 pt-3">
+      <summary class="cursor-pointer text-[11px] font-bold uppercase tracking-widest">Product Details</summary>
+      <div class="text-xs text-neutral-500 leading-relaxed mt-2 max-h-36 overflow-y-auto">
+        {{ product.description }}
+      </div>
     </details>
   </div>
 </div>
 
 <!-- ===== DESKTOP LAYOUT ===== -->
-<div class="product-desktop-layout">
-  <div class="product-desktop-sidebar">
-    <h1>{{ product.title }}</h1>
+<div class="hidden md:grid md:grid-cols-2 md:gap-12 md:px-10 md:py-8">
+  <div class="sticky top-20 self-start">
+    <h1 class="text-[40px] font-bold uppercase tracking-tighter">{{ product.title }}</h1>
 
-    <div style="margin-top: 1.5rem;">
-      <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem;">
-        {{ current_variant.price | money }}
-      </div>
+    <div class="mt-6">
+      <div class="text-xl font-bold mb-6">{{ current_variant.price | money }}</div>
 
       {% form 'product', product %}
-        <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="flex flex-col gap-4">
           {% if product.variants.size > 1 %}
-            <select name="id" style="width: 100%; border: 1px solid black; padding: 0.75rem; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
+            <select name="id" class="w-full border border-black p-3 text-sm uppercase tracking-wide">
               {% for variant in product.variants %}
                 <option value="{{ variant.id }}" {% if variant == current_variant %}selected{% endif %}>
                   {{ variant.title }} - {{ variant.price | money }}
@@ -198,27 +103,23 @@
           {% endif %}
 
           <input type="hidden" name="quantity" min="1" value="1">
-
-          <input type="submit" value="Add to cart" style="width: 100%; border: 1px solid black; padding: 0.875rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; background: transparent; cursor: pointer; transition: background 0.3s, color 0.3s;" onmouseover="this.style.background='black';this.style.color='white'" onmouseout="this.style.background='transparent';this.style.color='black'">
-
-          <div style="margin-top: 0.5rem;">
-            {{ form | payment_button }}
-          </div>
+          <input type="submit" value="Add to cart" class="w-full border border-black py-3 text-xs font-bold uppercase tracking-widest bg-transparent cursor-pointer hover:bg-black hover:text-white transition-colors duration-300">
+          <div class="mt-2">{{ form | payment_button }}</div>
         </div>
       {% endform %}
     </div>
 
     {% render 'calendly-booking', product: product %}
 
-    <details style="margin-top: 2rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 1.5rem;">
-      <summary style="cursor: pointer; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">Product Details</summary>
-      <div style="margin-top: 1rem; color: #666; line-height: 1.6; font-size: 0.875rem;">
+    <details class="mt-8 border-t border-neutral-200 pt-6">
+      <summary class="cursor-pointer text-xs font-bold uppercase tracking-widest">Product Details</summary>
+      <div class="mt-4 text-neutral-600 leading-relaxed text-sm">
         {{ product.description }}
       </div>
     </details>
   </div>
 
-  <div class="product-desktop-images">
+  <div class="grid grid-cols-1 gap-4">
     {% for image in product.images %}
       {% render 'image', class: 'w-full', image: image %}
     {% endfor %}

@@ -1,32 +1,5 @@
 <style>
-  header.site-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: white;
-  }
-  header.site-header a {
-    text-decoration: none;
-    color: black;
-  }
-  header.site-header svg {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-
-  .hamburger {
-    width: 24px;
-    height: 18px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 0;
-    position: relative;
-    z-index: 1;
-  }
+  /* Only styles Tailwind can't handle: hamburger animation + slide menu transition */
   .hamburger-line {
     display: block;
     height: 2px;
@@ -44,167 +17,67 @@
   .hamburger.is-open .hamburger-line:last-child {
     transform: rotate(-45deg) translate(6px, -6px);
   }
-
-  .header-logo {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .header-logo img {
-    height: 2rem;
-    width: auto;
-  }
-
   .slide-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 99;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
     pointer-events: none;
-    overflow-y: auto;
   }
   .slide-menu.is-open {
     transform: translateX(0);
     pointer-events: auto;
   }
-
-  .slide-menu-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100%;
-    padding: 6rem 2rem 2rem;
-  }
-  @media (min-width: 768px) {
-    .slide-menu-inner {
-      flex-direction: row;
-      padding: 2rem;
-    }
-  }
-
-  .slide-menu-links {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  @media (min-width: 768px) {
-    .slide-menu-links {
-      flex: 1;
-      align-items: flex-start;
-      padding-left: 3rem;
-    }
-  }
-
-  .slide-menu-links a {
-    display: block;
-    text-align: center;
-    font-size: 36px;
-    line-height: 1.1;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: -0.05em;
-    padding: 0.25rem 0;
-    transition: opacity 0.2s ease;
-    color: black;
-    text-decoration: none;
-  }
-  .slide-menu-links a:hover {
-    opacity: 0.5;
-  }
-  @media (min-width: 768px) {
-    .slide-menu-links a {
-      font-size: 60px;
-      text-align: left;
-    }
-  }
-
-  .slide-menu-image {
-    margin-top: 2rem;
-    width: 80%;
-    max-width: 300px;
-  }
-  @media (min-width: 768px) {
-    .slide-menu-image {
-      flex: 1;
-      margin-top: 0;
-      max-width: none;
-      width: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
-  }
-  .slide-menu-image img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-  @media (min-width: 768px) {
-    .slide-menu-image img {
-      max-height: 70vh;
-      width: auto;
-      max-width: 100%;
-    }
-  }
 </style>
 
-<header class="site-header px-6 md:px-10 py-4">
-  <div class="flex items-center justify-between" style="position: relative;">
-    <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+<header class="sticky top-0 z-100 bg-white px-6 md:px-10 py-4">
+  <div class="flex items-center justify-between relative">
+    <button class="hamburger flex flex-col justify-between w-6 h-[18px] bg-transparent border-none p-0 cursor-pointer relative z-[1]" id="hamburger-btn" aria-label="Menu">
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
     </button>
 
     {% if section.settings.logo %}
-      <a href="{{ routes.root_url }}" class="header-logo">
-        {{ section.settings.logo | image_url: height: 64 | image_tag }}
+      <a href="{{ routes.root_url }}" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        {{ section.settings.logo | image_url: height: 64 | image_tag: class: 'h-8 w-auto' }}
       </a>
     {% else %}
-      <a href="{{ routes.root_url }}" class="header-logo" style="font-weight: 700; font-size: 1rem; text-transform: uppercase; letter-spacing: -0.03em;">
+      <a href="{{ routes.root_url }}" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-base uppercase tracking-tight no-underline text-black">
         {{ shop.name }}
       </a>
     {% endif %}
 
-    <a href="{{ routes.cart_url }}" style="position: relative;">
+    <a href="{{ routes.cart_url }}" class="relative no-underline text-black">
       {% if cart.item_count > 0 %}
-        <sup style="position: absolute; top: -8px; right: -8px; background: black; color: white; font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">{{ cart.item_count }}</sup>
+        <sup class="absolute -top-2 -right-2 bg-black text-white text-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center">{{ cart.item_count }}</sup>
       {% endif %}
-      {{ 'icon-cart.svg' | inline_asset_content }}
+      <span class="w-6 h-6 block">{{ 'icon-cart.svg' | inline_asset_content }}</span>
     </a>
   </div>
 </header>
 
-<div class="slide-menu" id="slide-menu">
-  <div class="slide-menu-inner">
-    <div class="slide-menu-links">
+<div class="slide-menu fixed top-0 left-0 w-full h-full bg-white/60 backdrop-blur-md z-99 overflow-y-auto" id="slide-menu">
+  <div class="flex flex-col items-center justify-center min-h-full pt-24 px-8 pb-8 md:flex-row md:pt-8">
+    <div class="flex flex-col items-center md:flex-1 md:items-start md:pl-12">
       {% assign menu_links = linklists[section.settings.menu].links %}
       {% if menu_links.size > 0 %}
         {% for link in menu_links %}
-          <a href="{{ link.url }}">{{ link.title }}</a>
+          <a href="{{ link.url }}" class="block text-center text-[36px] md:text-[60px] md:text-left font-bold uppercase tracking-tighter leading-tight py-1 text-black no-underline hover:opacity-50 transition-opacity">
+            {{ link.title }}
+          </a>
         {% endfor %}
       {% else %}
-        <a href="/collections">Lessons</a>
-        <a href="/pages/dnd">D&D</a>
-        <a href="{{ routes.cart_url }}">Cart</a>
-        <a href="/pages/about">About</a>
-        <a href="/pages/contact">Contact</a>
+        <a href="/collections" class="block text-center text-[36px] md:text-[60px] md:text-left font-bold uppercase tracking-tighter leading-tight py-1 text-black no-underline hover:opacity-50 transition-opacity">Lessons</a>
+        <a href="/pages/dnd" class="block text-center text-[36px] md:text-[60px] md:text-left font-bold uppercase tracking-tighter leading-tight py-1 text-black no-underline hover:opacity-50 transition-opacity">D&D</a>
+        <a href="{{ routes.cart_url }}" class="block text-center text-[36px] md:text-[60px] md:text-left font-bold uppercase tracking-tighter leading-tight py-1 text-black no-underline hover:opacity-50 transition-opacity">Cart</a>
+        <a href="/pages/about" class="block text-center text-[36px] md:text-[60px] md:text-left font-bold uppercase tracking-tighter leading-tight py-1 text-black no-underline hover:opacity-50 transition-opacity">About</a>
+        <a href="/pages/contact" class="block text-center text-[36px] md:text-[60px] md:text-left font-bold uppercase tracking-tighter leading-tight py-1 text-black no-underline hover:opacity-50 transition-opacity">Contact</a>
       {% endif %}
     </div>
 
     {% if section.settings.menu_image %}
-      <div class="slide-menu-image">
+      <div class="mt-8 w-4/5 max-w-[300px] md:flex-1 md:mt-0 md:max-w-none md:w-auto md:flex md:items-center md:justify-center md:p-8">
         {{ section.settings.menu_image | image_url: width: 800 | image_tag:
+          class: 'w-full h-auto object-cover md:max-h-[70vh] md:w-auto md:max-w-full',
           loading: 'lazy'
         }}
       </div>
@@ -236,23 +109,15 @@
 
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
-      if (menu.classList.contains('is-open')) {
-        closeMenu();
-      } else {
-        openMenu();
-      }
+      if (menu.classList.contains('is-open')) { closeMenu(); } else { openMenu(); }
     });
 
     menu.addEventListener('click', function(e) {
-      if (e.target === menu || e.target.classList.contains('slide-menu-inner')) {
-        closeMenu();
-      }
+      if (e.target === menu || e.target.closest('.slide-menu > div') === e.target) { closeMenu(); }
     });
 
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && menu.classList.contains('is-open')) {
-        closeMenu();
-      }
+      if (e.key === 'Escape' && menu.classList.contains('is-open')) { closeMenu(); }
     });
   })();
 </script>
