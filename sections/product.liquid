@@ -11,7 +11,7 @@
 <!-- ===== MOBILE LAYOUT ===== -->
 <div class="block md:hidden pb-80">
   <!-- 4-col image grid -->
-  <div class="grid grid-cols-4 gap-1 p-1">
+  <div class="grid grid-cols-4 gap-1 p-1 ">
     {% if section.blocks.size > 0 %}
       {% for block in section.blocks %}
         {% if block.type == 'product_image' %}
@@ -20,7 +20,7 @@
           {% assign product_image = product.images[img_index] %}
           {% if product_image %}
             <div style="grid-column: span {{ col_span }};" {{ block.shopify_attributes }}>
-              {% render 'image', class: 'w-full aspect-square object-cover', image: product_image %}
+              {% render 'image', class: 'w-full opacity-60 aspect-square object-cover', image: product_image %}
             </div>
           {% endif %}
         {% endif %}
@@ -115,7 +115,7 @@
 
   <div class="grid grid-cols-1 gap-4">
     {% for image in product.images %}
-      {% render 'image', class: 'w-full', image: image %}
+      {% render 'image', class: 'w-full opacity-60', image: image %}
     {% endfor %}
   </div>
 </div>
