@@ -48,7 +48,7 @@
         "img_2": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/00029.jpg",
+            "image": "shopify://shop_images/scan0002.jpg",
             "full_width": false,
             "mobile_size": "100"
           }
@@ -56,7 +56,7 @@
         "img_3": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/00014.jpg",
+            "image": "shopify://shop_images/scan0014.jpg",
             "full_width": false,
             "mobile_size": "100"
           }
@@ -80,7 +80,7 @@
         "img_1": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/IMG_5063.png",
+            "image": "shopify://shop_images/scan0001.jpg",
             "full_width": false,
             "mobile_size": "50"
           }
@@ -88,7 +88,7 @@
         "img_2": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/00031.jpg",
+            "image": "shopify://shop_images/scan0006.jpg",
             "full_width": false,
             "mobile_size": "50"
           }
