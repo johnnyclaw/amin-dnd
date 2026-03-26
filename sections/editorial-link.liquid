@@ -26,7 +26,9 @@
       <h3 class="tracking-tighter pl-7 text-[32px] md:text-[40px] leading-none">{{ section.settings.subheading }}</h3>
     </a>
     {% if section.settings.blurb != blank %}
-      <p class="mt-4 text-xs md:text-base leading-relaxed text-black/70">{{ section.settings.blurb }}</p>
+      <div class="text-xs leading-relaxed text-black/70 pl-8 pt-6">
+        {{ section.settings.blurb }}
+      </div>
     {% endif %}
   </div>
 
