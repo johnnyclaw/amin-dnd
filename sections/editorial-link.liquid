@@ -25,6 +25,9 @@
       <h2 class="tracking-tighter font-bold text-[32px] md:text-[40px] uppercase">{{ section.settings.heading }}</h2>
       <h3 class="tracking-tighter pl-7 text-[32px] md:text-[40px] leading-none">{{ section.settings.subheading }}</h3>
     </a>
+    {% if section.settings.blurb != blank %}
+      <p class="mt-4 text-sm md:text-base leading-relaxed text-black/70">{{ section.settings.blurb }}</p>
+    {% endif %}
   </div>
 
   {% if layout == 'grid' %}
@@ -100,6 +103,11 @@
       "type": "url",
       "id": "url",
       "label": "Link URL"
+    },
+    {
+      "type": "richtext",
+      "id": "blurb",
+      "label": "Description"
     },
     {
       "type": "select",
