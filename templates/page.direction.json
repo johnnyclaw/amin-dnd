@@ -24,6 +24,7 @@
         "card_2": {
           "type": "project_card",
           "settings": {
+            "image": "shopify://shop_images/2025-08-17_21-34-37.png",
             "category": "Manufacturing expertise",
             "title": "...",
             "link": ""
@@ -32,6 +33,7 @@
         "card_3": {
           "type": "project_card",
           "settings": {
+            "image": "shopify://shop_images/2025-08-29_04-29-33_1.png",
             "category": "in-house consulting",
             "title": "...",
             "link": ""
@@ -40,6 +42,7 @@
         "project_card_dg3NqA": {
           "type": "project_card",
           "settings": {
+            "image": "shopify://shop_images/2025-08-29_02-30-30.png",
             "category": "MASTERCLASSES",
             "title": "Offered for Individuals and Teams",
             "link": ""
