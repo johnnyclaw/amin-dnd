@@ -83,8 +83,9 @@
         "text_3",
         "cta_1"
       ],
+      "name": "Projects",
       "settings": {
-        "label": ""
+        "label": "Current"
       }
     }
   },
