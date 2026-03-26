@@ -3,7 +3,7 @@
   Magazine/collage layout with scattered images and text blocks
 {% endcomment %}
 
-<section class="py-16 md:py-24">
+<section class="py-16 md:py-24 mx-auto">
   <!-- Page Header -->
   <div class="px-6 md:px-10 mb-16 md:mb-24">
     <p class="text-xs uppercase tracking-widest text-neutral-500 font-bold mb-2">
@@ -15,7 +15,7 @@
   </div>
 
   <!-- Editorial Content Grid -->
-  <div class="px-6 md:px-10">
+  <div class="px-6 md:px-10 grid grid-cols-1 gap-8">
     {% for block in section.blocks %}
       {% case block.type %}
 
@@ -24,7 +24,7 @@
             class="mb-12 md:mb-20 {% if block.settings.offset %}md:ml-[8%] md:w-[84%]{% else %}w-full{% endif %}"
             {{ block.shopify_attributes }}
           >
-            <div class="aspect-[16/10] bg-neutral-100 overflow-hidden">
+            <div class="bg-neutral-100 overflow-hidden">
               {% if block.settings.image != blank %}
                 {{ block.settings.image | image_url: width: 1400 | image_tag:
                   class: 'w-full h-full object-cover',
@@ -45,13 +45,13 @@
 
         {% when 'image_pair' %}
           <div
-            class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-12 md:mb-20 {% if block.settings.offset %}md:px-[4%]{% endif %}"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-12 md:mb-20 {% if block.settings.offset %}md:px-[4%]{% endif %}"
             {{ block.shopify_attributes }}
           >
-            <div class="aspect-[3/4] bg-neutral-100 overflow-hidden">
+            <div class="overflow-hidden">
               {% if block.settings.image_left != blank %}
                 {{ block.settings.image_left | image_url: width: 700 | image_tag:
-                  class: 'w-full h-full object-cover',
+                  class: 'w-full h-full',
                   loading: 'lazy'
                 }}
               {% else %}
@@ -62,7 +62,7 @@
                 </div>
               {% endif %}
             </div>
-            <div class="aspect-[3/4] bg-neutral-100 overflow-hidden">
+            <div class="overflow-hidden">
               {% if block.settings.image_right != blank %}
                 {{ block.settings.image_right | image_url: width: 700 | image_tag:
                   class: 'w-full h-full object-cover',
