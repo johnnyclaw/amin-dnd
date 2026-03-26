@@ -67,7 +67,7 @@
         "cta_1": {
           "type": "cta",
           "settings": {
-            "text": "Book a 15-Min Consultation",
+            "text": "Book a 45-Min Consultation",
             "url": "",
             "align": "center"
           }
