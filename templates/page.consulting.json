@@ -1,25 +1,38 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "consulting",
-      "settings": {},
       "blocks": {
         "img_1": {
           "type": "large_image",
           "settings": {
-            "caption": "Amin Design & Direction — Studio"
+            "image": "shopify://shop_images/00011.jpg",
+            "caption": "Amin Design & Direction — Studio",
+            "offset": false
           }
         },
         "text_1": {
           "type": "text_block",
           "settings": {
             "heading": "Manufacturing",
-            "body": "<p>End-to-end guidance on taking your design from concept to production. Pattern grading, material sourcing, factory communication, and quality control — built from years of hands-on experience.</p>"
+            "body": "<p>End-to-end guidance on taking your design from concept to production. Pattern grading, material sourcing, factory communication, and quality control — built from years of hands-on experience.</p>",
+            "align": "left"
           }
         },
         "pair_1": {
           "type": "image_pair",
           "settings": {
+            "image_left": "shopify://shop_images/2025-08-17_21-34-37.png",
+            "image_right": "shopify://shop_images/2025-08-29_17-06-12_1.png",
             "offset": true
           }
         },
@@ -32,13 +45,15 @@
           }
         },
         "spacer_1": {
-          "type": "spacer"
+          "type": "spacer",
+          "settings": {}
         },
         "img_2": {
           "type": "large_image",
           "settings": {
-            "offset": true,
-            "caption": "Production floor detail"
+            "image": "shopify://shop_images/00019.jpg",
+            "caption": "Production floor detail",
+            "offset": true
           }
         },
         "text_3": {
@@ -53,12 +68,27 @@
           "type": "cta",
           "settings": {
             "text": "Book a 15-Min Consultation",
+            "url": "",
             "align": "center"
           }
         }
       },
-      "block_order": ["img_1", "text_1", "pair_1", "text_2", "spacer_1", "img_2", "text_3", "cta_1"]
+      "block_order": [
+        "img_1",
+        "text_1",
+        "pair_1",
+        "text_2",
+        "spacer_1",
+        "img_2",
+        "text_3",
+        "cta_1"
+      ],
+      "settings": {
+        "label": ""
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
