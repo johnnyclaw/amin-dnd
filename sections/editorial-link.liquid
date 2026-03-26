@@ -21,7 +21,7 @@
 
 <div class="grid grid-cols-1 {% if layout == 'grid' %}md:grid-cols-3{% else %}md:grid-cols-2{% endif %} gap-6 md:gap-12 pt-12">
   <div class="relative">
-    <a href="{{ section.settings.url }}" class="sticky top-12 block transition duration-300 ease-in-out hover:underline cursor-pointer">
+    <a href="{{ section.settings.url }}" class="sticky top-12 block transition duration-500 ease-in-out hover:underline hover:cursor-pointer hover:opacity-50">
       <h2 class="tracking-tighter font-bold text-[32px] md:text-[40px] uppercase">{{ section.settings.heading }}</h2>
       <h3 class="tracking-tighter pl-7 text-[32px] md:text-[40px] leading-none">{{ section.settings.subheading }}</h3>
     </a>
@@ -56,13 +56,13 @@
     </div>
   {% else %}
     <div>
-      <a href="{{ section.settings.url }}" class="flex flex-col gap-4">
+      <a href="{{ section.settings.url }}" class="flex flex-col gap-4 ">
         {% for block in section.blocks %}
           {% if block.type == 'image' %}
             <div {{ block.shopify_attributes }}>
               {% if block.settings.image != blank %}
                 {{ block.settings.image | image_url: width: 1200 | image_tag:
-                  class: 'w-full h-auto',
+                  class: 'w-full h-auto hover:translate-y-1 hover:scale-101 hover:shadow- lg transition duration-300 hover:opacity-50',
                   loading: 'lazy'
                 }}
               {% else %}
