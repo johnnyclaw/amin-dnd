@@ -15,6 +15,7 @@
       "type": "header",
       "settings": {
         "menu": "dnd-main",
+        "menu_image": "shopify://shop_images/alfr726-012.jpg",
         "customer_account_menu": "customer-account-main-menu"
       }
     }
