@@ -15,6 +15,7 @@
       "type": "header",
       "settings": {
         "menu": "main-menu",
+        "menu_image": "shopify://shop_images/scan0014.jpg",
         "customer_account_menu": "customer-account-main-menu"
       }
     }
