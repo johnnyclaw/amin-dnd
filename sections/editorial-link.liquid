@@ -21,19 +21,21 @@
 
 <div class="grid grid-cols-1 {% if layout == 'grid' %}md:grid-cols-3{% else %}md:grid-cols-2{% endif %} gap-6 md:gap-12 pt-12">
   <div class="relative">
-    <a href="{{ section.settings.url }}" class="sticky top-12 block transition duration-500 ease-in-out hover:underline hover:cursor-pointer hover:opacity-50">
-      <h2 class="tracking-tighter font-bold text-[32px] md:text-[40px] uppercase">{{ section.settings.heading }}</h2>
-      <h3 class="tracking-tighter pl-7 text-[32px] md:text-[40px] leading-none">{{ section.settings.subheading }}</h3>
-    </a>
-    {% if section.settings.blurb != blank %}
-      <div class="text-xs leading-relaxed text-black/70 pl-8 pt-6">
-        {{ section.settings.blurb }}
+    <a href="{{ section.settings.url }}" class="sticky top-12 block ">
+      <div class="transition duration-500 ease-in-out hover:underline hover:cursor-pointer hover:opacity-50">
+        <h2 class="tracking-tighter font-bold text-[32px] md:text-[40px] uppercase">{{ section.settings.heading }}</h2>
+        <h3 class="tracking-tighter pl-7 text-[32px] md:text-[40px] leading-none">{{ section.settings.subheading }}</h3>
       </div>
-    {% endif %}
+      {% if section.settings.blurb != blank %}
+        <div class="text-xs leading-relaxed text-black/70 pl-8 pt-6">
+          {{ section.settings.blurb }}
+        </div>
+      {% endif %}
+    </a>
   </div>
 
   {% if layout == 'grid' %}
-    <div class="col-span-1 md:col-span-2 grid gap-6 md:gap-12 grid-cols-1 sm:grid-cols-2">
+    <div class="col-span-1 md:col-span-2 grid gap-6 md:gap-12 grid-cols-1 sm:grid-cols-2  ">
       {% for block in section.blocks %}
         {% if block.type == 'image' %}
           {% assign width_class = '' %}
@@ -41,11 +43,11 @@
             {% assign width_class = 'sm:col-span-2' %}
           {% endif %}
           {% assign mobile_size = block.settings.mobile_size | default: '100' %}
-          <a href="{{ section.settings.url }}" class="flex hover:cursor-pointer  flex-col gap-4 {{ width_class }}" {{ block.shopify_attributes }}
+          <a href="{{ section.settings.url }}" class="flex flex-col gap-4  {{ width_class }}" {{ block.shopify_attributes }}
              style="{% if mobile_size != '100' %}--mobile-width: {{ mobile_size }}%;{% endif %}">
             {% if block.settings.image != blank %}
               {{ block.settings.image | image_url: width: 1200 | image_tag:
-                class: 'w-full h-auto editorial-img hover:cursor-pointer',
+                class: 'w-full h-auto editorial-img hover:cursor-pointer hover:translate-y-1 hover:scale-101 hover:shadow-lg transition duration-300 hover:brightness-90',
                 loading: 'lazy'
               }}
             {% else %}
@@ -67,7 +69,7 @@
             <div {{ block.shopify_attributes }}>
               {% if block.settings.image != blank %}
                 {{ block.settings.image | image_url: width: 1200 | image_tag:
-                  class: 'w-full h-auto hover:translate-y-1 hover:scale-101 hover:shadow- lg transition duration-300 hover:opacity-50',
+                  class: 'w-full h-auto hover:cursor-pointer hover:translate-y-1 hover:scale-101 hover:shadow-lg transition duration-300 hover:brightness-90',
                   loading: 'lazy'
                 }}
               {% else %}
