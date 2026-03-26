@@ -23,11 +23,11 @@
         <a
           href="{{ block.settings.link | default: '#' }}"
           {% assign mod_check = forloop.index0 | modulo: 2 %}
-          class="group block flex flex-col gap-2 {% if mod_check == 1 %}md:mt-16{% endif %}"
+          class="group block flex flex-col gap-2 rounded-lg focus-2 focus-black {% if mod_check == 1 %}md:mt-16{% endif %}"
           {{ block.shopify_attributes }}
         >
           <!-- Image -->
-          <div class="aspect-[4/5] bg-neutral-100 overflow-hidden mb-4">
+          <div class="aspect-[4/5]  overflow-hidden pb-4">
             {% if block.settings.image != blank %}
               {{ block.settings.image | image_url: width: 800 | image_tag:
                 class: 'w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-80',
