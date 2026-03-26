@@ -33,11 +33,12 @@
         "img_1",
         "img_2"
       ],
+      "custom_css": [],
       "settings": {
         "heading": "LA",
         "subheading": "California",
         "url": "/products/la",
-        "blurb": "<p>Patter Making & Sewing Classes in Fairfax</p>",
+        "blurb": "<p>1-on-1 Pattern Making & Sewing Classes in Fairfax LA with Amin</p><p></p><p>Learn and Develop skills for ...</p>",
         "layout": "grid"
       }
     },
