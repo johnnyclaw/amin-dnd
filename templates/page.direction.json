@@ -1,54 +1,63 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "direction",
-      "settings": {},
       "blocks": {
         "card_1": {
           "type": "project_card",
           "settings": {
-            "category": "MASTERCLASS",
-            "title": "Carpenter Jean Masterclass"
+            "image": "shopify://shop_images/2025-08-29_17-06-12_1.png",
+            "category": "Sample creation",
+            "title": "...",
+            "link": ""
           }
         },
         "card_2": {
           "type": "project_card",
           "settings": {
-            "category": "MASTERCLASS",
-            "title": "Denim Jacket Masterclass"
+            "category": "Manufacturing expertise",
+            "title": "...",
+            "link": ""
           }
         },
         "card_3": {
           "type": "project_card",
           "settings": {
-            "category": "1:1 LESSON",
-            "title": "2x Design Lessons — LA"
+            "category": "in-house consulting",
+            "title": "...",
+            "link": ""
           }
         },
-        "card_4": {
+        "project_card_dg3NqA": {
           "type": "project_card",
           "settings": {
-            "category": "VIRTUAL",
-            "title": "2x Virtual Design Lessons"
-          }
-        },
-        "card_5": {
-          "type": "project_card",
-          "settings": {
-            "category": "1:1 LESSON",
-            "title": "14x Design Lessons — LA"
-          }
-        },
-        "card_6": {
-          "type": "project_card",
-          "settings": {
-            "category": "YOUTH",
-            "title": "2x Youth Design Lessons — LA"
+            "category": "MASTERCLASSES",
+            "title": "Offered for Individuals and Teams",
+            "link": ""
           }
         }
       },
-      "block_order": ["card_1", "card_2", "card_3", "card_4", "card_5", "card_6"]
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "project_card_dg3NqA"
+      ],
+      "settings": {
+        "subtitle": "In-person and virtual design education. Pattern making, garment construction, and the foundations rarely taught in school."
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
