@@ -15,6 +15,7 @@
         "card_1": {
           "type": "project_card",
           "settings": {
+            "image": "shopify://shop_images/2025-08-29_17-06-12_1.png",
             "category": "Sample creation",
             "title": "...",
             "link": ""
