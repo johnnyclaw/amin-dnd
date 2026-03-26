@@ -19,19 +19,10 @@
             "full_width": false,
             "mobile_size": "100"
           }
-        },
-        "img_2": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/00034.jpg",
-            "full_width": false,
-            "mobile_size": "100"
-          }
         }
       },
       "block_order": [
-        "img_1",
-        "img_2"
+        "img_1"
       ],
       "settings": {
         "heading": "Design",
@@ -50,19 +41,10 @@
             "full_width": false,
             "mobile_size": "100"
           }
-        },
-        "img_2": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/2025-08-29_04-29-33.png",
-            "full_width": false,
-            "mobile_size": "100"
-          }
         }
       },
       "block_order": [
-        "img_1",
-        "img_2"
+        "img_1"
       ],
       "settings": {
         "heading": "Direction",
