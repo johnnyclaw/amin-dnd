@@ -44,10 +44,6 @@
             "align": "right"
           }
         },
-        "spacer_1": {
-          "type": "spacer",
-          "settings": {}
-        },
         "img_2": {
           "type": "large_image",
           "settings": {
@@ -78,7 +74,6 @@
         "text_1",
         "pair_1",
         "text_2",
-        "spacer_1",
         "img_2",
         "text_3",
         "cta_1"
