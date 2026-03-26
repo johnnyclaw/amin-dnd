@@ -70,7 +70,7 @@
         "heading": "NYC",
         "subheading": "New York",
         "url": "/products/nyc",
-        "blurb": "",
+        "blurb": "<p>Hands on in NYC. Work with Amin to learn and develop skills. Meant for students at any level.</p>",
         "layout": "grid"
       }
     },
@@ -102,7 +102,7 @@
         "heading": "Virtual",
         "subheading": "Anywhere",
         "url": "/products/virtual",
-        "blurb": "",
+        "blurb": "<p>Meet with Amin <em>virtually</em> to learn and develop skills. Students at all levels are welcomed.</p>",
         "layout": "grid"
       }
     }
