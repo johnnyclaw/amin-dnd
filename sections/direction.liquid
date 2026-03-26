@@ -5,7 +5,7 @@
 
 <section class="py-16 md:py-24">
   <!-- Page Title -->
-  <div class="mb-16 md:mb-24 px-6 md:px-10">
+  <div class="mb-16 md:mb-24 px-6 md:px-10 pb-24">
     <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tighter leading-none">
       {{ page.title | default: 'Direction' }}
     </h1>
@@ -17,13 +17,13 @@
   </div>
 
   <!-- 2-Column Project Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 md:gap-x-6 gap-y-12 md:gap-y-20 px-6 md:px-10">
+  <div class="grid grid-cols-1 md:grid-cols-2 items-end gap-x-4 md:gap-x-6 gap-y-12 md:gap-y-20 px-6 md:px-10">
     {% for block in section.blocks %}
       {% if block.type == 'project_card' %}
         <a
           href="{{ block.settings.link | default: '#' }}"
           {% assign mod_check = forloop.index0 | modulo: 2 %}
-          class="group block {% if mod_check == 1 %}md:mt-16{% endif %}"
+          class="group block flex flex-col gap-2 {% if mod_check == 1 %}md:mt-16{% endif %}"
           {{ block.shopify_attributes }}
         >
           <!-- Image -->

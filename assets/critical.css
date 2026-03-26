@@ -118,3 +118,7 @@ body {
 .shopify-payment-button__button--unbranded {
   background-color: black !important;
 }
+
+a:hover {
+  cursor: pointer !important;
+}
