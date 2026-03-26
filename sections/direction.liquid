@@ -23,7 +23,7 @@
         <a
           href="{{ block.settings.link | default: '#' }}"
           {% assign mod_check = forloop.index0 | modulo: 2 %}
-          class="group block flex flex-col gap-2 rounded-lg focus-2 focus-black {% if mod_check == 1 %}md:mt-16{% endif %}"
+          class="group block flex flex-col gap-2 rounded-lg border-2 border-transparent hover:border-black hover:cursor-pointer hover:translate-y-1 hover:scale-101 transition duration-300 {% if mod_check == 1 %}md:mt-16{% endif %}"
           {{ block.shopify_attributes }}
         >
           <!-- Image -->
@@ -43,9 +43,9 @@
           </div>
 
           <!-- Label + Title -->
-          <div class="space-y-1">
+          <div class="space-y-1 px-2">
             {% if block.settings.category != blank %}
-              <p class="text-xs uppercase tracking-widest text-neutral-500 font-bold">
+              <p class="text-xs uppercase tracking-widest font-bold">
                 {{ block.settings.category }}
               </p>
             {% endif %}
