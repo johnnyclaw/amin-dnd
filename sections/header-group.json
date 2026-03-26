@@ -14,8 +14,8 @@
     "header": {
       "type": "header",
       "settings": {
+        "logo": "shopify://shop_images/small-logo.avif",
         "menu": "main-menu",
-        "menu_image": "shopify://shop_images/scan0014.jpg",
         "customer_account_menu": "customer-account-main-menu"
       }
     }
