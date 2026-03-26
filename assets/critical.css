@@ -122,3 +122,7 @@ body {
 a:hover {
   cursor: pointer !important;
 }
+
+.shopify-payment-button__more-options {
+  display: none;
+}
