@@ -34,7 +34,7 @@
           "type": "project_card",
           "settings": {
             "image": "shopify://shop_images/2025-08-29_17-06-12.png",
-            "category": "in-house consulting",
+            "category": "Brand Development",
             "title": "",
             "link": ""
           }
@@ -45,7 +45,7 @@
             "image": "shopify://shop_images/2025-08-29_02-30-30.png",
             "category": "MASTERCLASSES",
             "title": "",
-            "link": ""
+            "link": "shopify://collections/design-lessons"
           }
         }
       },
@@ -56,7 +56,7 @@
         "project_card_dg3NqA"
       ],
       "settings": {
-        "subtitle": "Pattern making, garment construction, and manufacturing."
+        "subtitle": "Pattern making, garment construction, brand development and manufacturing."
       }
     }
   },
