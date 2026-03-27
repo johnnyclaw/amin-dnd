@@ -82,7 +82,7 @@
           "settings": {
             "image": "shopify://shop_images/scan0001.jpg",
             "full_width": false,
-            "mobile_size": "50"
+            "mobile_size": "100"
           }
         },
         "img_2": {
@@ -90,7 +90,7 @@
           "settings": {
             "image": "shopify://shop_images/scan0006.jpg",
             "full_width": false,
-            "mobile_size": "50"
+            "mobile_size": "100"
           }
         }
       },
