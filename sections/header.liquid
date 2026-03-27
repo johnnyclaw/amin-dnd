@@ -60,7 +60,7 @@
 
 <div class="slide-menu fixed top-0 left-0 w-full h-full bg-white/60 backdrop-blur-md z-99 overflow-y-auto" id="slide-menu">
   <div class="flex flex-col items-center justify-center min-h-full pt-24 px-8 pb-8 md:flex-row md:pt-8">
-    <div class="flex flex-col items-center gap-6 md:flex-1 md:items-start md:pl-12">
+    <div class="flex flex-col items-start gap-6 md:flex-1 md:items-start md:pl-12">
       {% assign menu_links = linklists[section.settings.menu].links %}
       {% if menu_links.size > 0 %}
         {% for link in menu_links %}
