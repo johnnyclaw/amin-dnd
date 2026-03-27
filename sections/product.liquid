@@ -11,7 +11,7 @@
 <!-- ===== MOBILE LAYOUT ===== -->
 <div class="block md:hidden pb-12">
   <!-- 4-col image grid -->
-  <div class="grid grid-cols-4 gap-1 p-1 ">
+  <div class="grid grid-cols-4 gap-1 p-1 items-center">
     {% if section.blocks.size > 0 %}
       {% for block in section.blocks %}
         {% if block.type == 'product_image' %}
@@ -20,15 +20,15 @@
           {% assign product_image = product.images[img_index] %}
           {% if product_image %}
             <div style="grid-column: span {{ col_span }};" {{ block.shopify_attributes }}>
-              {% render 'image', class: 'w-full aspect-square object-cover', image: product_image %}
+              {% render 'image', class: 'w-full object-cover', image: product_image %}
             </div>
           {% endif %}
         {% endif %}
       {% endfor %}
     {% else %}
       {% for image in product.images %}
-        <div style="grid-column: span 2;">
-          {% render 'image', class: 'w-full aspect-square object-cover', image: image %}
+        <div style="grid-column: span 2;" class="items-end">
+          {% render 'image', class: 'w-full object-cover', image: image %}
         </div>
       {% endfor %}
     {% endif %}
@@ -38,7 +38,6 @@
   <div class="product-sticky-panel fixed bottom-0 left-0 right-0 z-40 bg-white/90 border-t border-black/5 px-6 py-4">
     <div class="flex justify-between items-start mb-3">
       <h1 class="text-base font-bold uppercase tracking-tight m-0">{{ product.title }}</h1>
-      <span class="text-xs font-bold">{{ current_variant.price | money }}</span>
     </div>
 
     {% form 'product', product %}
