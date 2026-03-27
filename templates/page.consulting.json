@@ -23,8 +23,8 @@
         "text_1": {
           "type": "text_block",
           "settings": {
-            "heading": "Manufacturing",
-            "body": "<p>End-to-end guidance on taking your design from concept to production. Pattern grading, material sourcing, factory communication, and quality control — built from years of hands-on experience.</p>",
+            "heading": "LOS ANGELES, CA, June 1st, 2025",
+            "body": "<p>This is not a collaboration, it’s a partnership between two veteran designers; Amin; specializing in leather & denim for 12 years, and Paul Kaufman; a legendary shoemaker who introduced the iconic brand, Dr. Martens, to the United States in 1980.<br/><br/></p>",
             "align": "left"
           }
         },
@@ -32,15 +32,15 @@
           "type": "image_pair",
           "settings": {
             "image_left": "shopify://shop_images/2025-08-17_21-34-37.png",
-            "image_right": "shopify://shop_images/3D7C0001-179D-4FA8-A3B0-17E7DC88B31B.png",
+            "image_right": "shopify://shop_images/2025-08-29_17-06-12.png",
             "offset": false
           }
         },
         "text_2": {
           "type": "text_block",
           "settings": {
-            "heading": "Sampling",
-            "body": "<p>Get your first sample right. We cover pattern development, fabric selection, construction techniques, and fit evaluation — so you're not wasting money on rounds of revisions.</p>",
+            "heading": "DESIGN LANGUAGE",
+            "body": "<p>Design Language, opening August 7th 2025, dives into the duos’ untraditional journeys as designers. Illustrating how the common thread of design transcends age, race, religion, geography, and language. We explore their unique perspectives through the conventions Amin and Paul use to speak about ‘land’. Paul, naming his footwear silhouettes after street classifications (Freeway, Crosswalk, Junction, Alley, Intersection), while Amin names the colourways after nature (Clay, Coal, Sky, Sage, Sand, Slate).</p>",
             "align": "right"
           }
         },
@@ -55,8 +55,8 @@
         "text_3": {
           "type": "text_block",
           "settings": {
-            "heading": "Production",
-            "body": "<p>Scaling from sample to production run. We consult on production planning, cost optimization, vendor management, and quality assurance to help you ship with confidence.</p>",
+            "heading": "EXHIBIT",
+            "body": "<p>Their exhibit will provide guests with unique insight behind the process of 3 silhouettes Amin and Paul designed together. The 3 designs pay homage to western workwear and counter-culture:</p><p></p><ul><li>- A Double Zip Jacket - a jacket with two zippers inspired by the London punk scene<br/></li></ul><p></p><ul><li>- Double Zip Jeans - a jean with two zipper along the fly, reminiscent of German carpenter wear </li><li>- The Freeway Chelsea - a twisted classic mixing a traditional chelsea silhouette with the toe box of a western boot</li></ul><p><br/></p><p>Every piece is bespoke! Guests are invited to step into the role of a designer and craft their own one-of-one garments by selecting their own silhouettes, colorways, materials, embroidery and metal finishes.</p>",
             "align": "center"
           }
         },
@@ -80,7 +80,7 @@
       ],
       "name": "Projects",
       "settings": {
-        "label": "Current"
+        "label": "projects"
       }
     }
   },
