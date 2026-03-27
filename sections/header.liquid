@@ -64,7 +64,7 @@
       {% assign menu_links = linklists[section.settings.menu].links %}
       {% if menu_links.size > 0 %}
         {% for link in menu_links %}
-          <a href="{{ link.url }}" class="block text-center text-[36px] md:text-[60px] md:text-left font-bold uppercase tracking-tighter leading-none py-1 text-black no-underline hover:opacity-50 transition-opacity">
+          <a href="{{ link.url }}" class="block text-[36px] md:text-[60px] text-left font-bold uppercase tracking-tighter leading-none py-1 text-black no-underline hover:opacity-50 transition-opacity">
             {{ link.title }}
           </a>
         {% endfor %}

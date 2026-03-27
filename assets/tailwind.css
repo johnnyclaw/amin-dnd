@@ -819,6 +819,9 @@
   .text-center {
     text-align: center;
   }
+  .text-left {
+    text-align: left;
+  }
   .text-right {
     text-align: right;
   }
@@ -858,6 +861,9 @@
   }
   .text-\[11px\] {
     font-size: 11px;
+  }
+  .text-\[24px\] {
+    font-size: 24px;
   }
   .text-\[32px\] {
     font-size: 32px;
