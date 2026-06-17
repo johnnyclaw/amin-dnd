@@ -14,7 +14,7 @@
     "footer": {
       "type": "footer",
       "custom_css": [
-        "footer a {font-size: 20px !important;}"
+        "footer {background: red !important;}"
       ],
       "settings": {
         "menu": "",
