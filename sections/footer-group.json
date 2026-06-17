@@ -14,7 +14,7 @@
     "footer": {
       "type": "footer",
       "custom_css": [
-        ".footer__links a {font-size: 5px !important;}"
+        "footer a {font-size: 20px !important;}"
       ],
       "settings": {
         "menu": "",
