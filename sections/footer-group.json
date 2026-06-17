@@ -13,7 +13,9 @@
   "sections": {
     "footer": {
       "type": "footer",
-      "custom_css": [],
+      "custom_css": [
+        "footer {background: red !important;}"
+      ],
       "settings": {
         "menu": "",
         "show_payment_icons": true
